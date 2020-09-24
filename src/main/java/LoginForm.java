@@ -447,6 +447,7 @@ public class LoginForm extends javax.swing.JFrame {
                 
                 if (archivoDescriptorBitacora.length() == 0) {
                     System.out.println("Se Creara El primer Usuario modo Administrador");
+                    JOptionPane.showMessageDialog(null, "Se Creara El primer Usuario modo Administrador");
                     registroForm formularioRegistro =  new registroForm(nombreUsuario);
                     formularioRegistro.setVisible(true);
                     dispose();
