@@ -1,9 +1,27 @@
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -31,6 +49,18 @@ public class registroForm extends javax.swing.JFrame {
        Icon iconoCerrar = new ImageIcon(enviar.getImage().getScaledInstance(labelIcono.getWidth(), labelIcono.getHeight(), Image.SCALE_SMOOTH));
        
        labelIcono.setIcon(iconoCerrar);
+       
+       txtUsuario.grabFocus();
+       
+        if (VerificarSiEsPrimerUsuario()) {
+            txtRol.setValue(0);
+            txtRol.setEnabled(false);    
+        }
+        else {
+            txtRol.setValue(1);
+            txtRol.setEnabled(false);    
+        }
+        
     }
 
     /**
@@ -71,12 +101,21 @@ public class registroForm extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         txtTelefono = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        txtPathFotografia = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         txtEstatus = new javax.swing.JTextField();
         labelIcono = new javax.swing.JLabel();
+        labelErrorNombre = new javax.swing.JLabel();
+        labelErrorApellido = new javax.swing.JLabel();
+        labelErrorPassword = new javax.swing.JLabel();
+        labelErrorRol = new javax.swing.JLabel();
+        labelErrorFechaNacimiento = new javax.swing.JLabel();
+        labelErrorCorreoAlterno = new javax.swing.JLabel();
+        labelErrorTelefono = new javax.swing.JLabel();
+        labelEstatus = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        labelPathFoto = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
 
@@ -328,36 +367,7 @@ public class registroForm extends javax.swing.JFrame {
         );
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel12.setText("path_fotografia");
-
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        jPanel9.setForeground(new java.awt.Color(255, 255, 255));
-
-        txtPathFotografia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtPathFotografia.setBorder(null);
-        txtPathFotografia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        txtPathFotografia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPathFotografiaActionPerformed(evt);
-            }
-        });
-        txtPathFotografia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPathFotografiaKeyTyped(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtPathFotografia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtPathFotografia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        jLabel12.setText("Fotografia");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel13.setText("Estatus");
@@ -392,6 +402,42 @@ public class registroForm extends javax.swing.JFrame {
         );
 
         labelIcono.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelIcono.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelIconoMouseClicked(evt);
+            }
+        });
+
+        labelErrorNombre.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorNombre.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelErrorApellido.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorApellido.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelErrorPassword.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorPassword.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelErrorRol.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorRol.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelErrorFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorFechaNacimiento.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelErrorCorreoAlterno.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorCorreoAlterno.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelErrorTelefono.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelErrorTelefono.setForeground(new java.awt.Color(255, 0, 51));
+
+        labelEstatus.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        labelEstatus.setForeground(new java.awt.Color(255, 0, 51));
+
+        jButton1.setText("Buscar Foto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -403,7 +449,7 @@ public class registroForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -416,17 +462,12 @@ public class registroForm extends javax.swing.JFrame {
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel4))
                                 .addGap(7, 7, 7)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtRol, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtRol, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -439,69 +480,100 @@ public class registroForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelErrorUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelErrorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelErrorApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelErrorPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelErrorRol, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelErrorFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelErrorCorreoAlterno, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(59, 59, 59)
-                .addComponent(labelErrorUsuario)
-                .addContainerGap(100, Short.MAX_VALUE))
+                        .addComponent(labelEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelErrorTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(labelPathFoto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(234, 234, 234))
+                .addGap(223, 223, 223))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorUsuario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(labelIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorRol, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(labelErrorFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorCorreoAlterno, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelErrorTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jButton1))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)))
+                        .addGap(18, 18, 18)
+                        .addComponent(labelIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelPathFoto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 520, 520));
@@ -547,14 +619,6 @@ public class registroForm extends javax.swing.JFrame {
     private void txtEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEstatusActionPerformed
-
-    private void txtPathFotografiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPathFotografiaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPathFotografiaKeyTyped
-
-    private void txtPathFotografiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPathFotografiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPathFotografiaActionPerformed
 
     private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
         // TODO add your handling code here:
@@ -605,7 +669,7 @@ public class registroForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
-        if (txtUsuario.getText().length() == 20 ) {
+        if (txtUsuario.getText().length() == 5 ) {
             evt.consume();
             labelErrorUsuario.setForeground(Color.red);
             labelErrorUsuario.setText("solo se permiten 5 caracteres");
@@ -620,6 +684,152 @@ public class registroForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
+    private void labelIconoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelIconoMouseClicked
+        Usuario user = new Usuario();
+        
+        user.nombreUsuario = txtUsuario.getText();
+        user.nombre = txtNombre.getText();
+        user.apellido = txtApellido.getText();
+        user.password = txtPassword.getText();
+        user.rol = txtRol.getValue().toString();
+        user.fecha_nacimiento = txtNacimiento.getText();
+        user.correo_alterno = txtCorreo.getText();
+        user.estatus = txtEstatus.getText();
+        
+        File imagenSeleccionadao = new File(labelPathFoto.getText());
+        CrearImagenEnRoot(imagenSeleccionadao, user);
+        InsertarUsuario(user);
+        
+    }//GEN-LAST:event_labelIconoMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         JFileChooser selector=new JFileChooser();
+         selector.showOpenDialog(this);
+         
+         File archivo = selector.getSelectedFile();
+         
+         if (archivo != null) {
+             String Origen = archivo.getPath();
+            ImageIcon ingresar = new ImageIcon(Origen);
+            Icon iconoIngresar = new ImageIcon(ingresar.getImage().getScaledInstance(jLabel14.getWidth(), jLabel14.getHeight(), Image.SCALE_FAST));
+             jLabel14.setIcon(iconoIngresar);
+             labelPathFoto.setText(Origen);
+             labelPathFoto.setVisible(false);
+        }
+         else {
+             JOptionPane.showMessageDialog(null, "Por favor seleccione una imagen");
+         }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void InsertarUsuario(Usuario user){
+        String rutaArchivoBitacora = "C:\\MEIA\\bitacora_usuario.txt";
+        String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
+        String rutaArchivoUsuario = "C:\\MEIA\\usuario.txt";
+        String rutaDescriptorArchivoUsuario = "C:\\MEIA\\desc_usuario.txt";
+        
+        if (VerificarSiEsPrimerUsuario()) {
+            EscribirEnBitacora(user, rutaArchivoBitacora, rutaDescriptorBitacora);
+            JOptionPane.showMessageDialog(null, "Usuario Creado");
+            LoginForm formularioLogin = new LoginForm();
+            formularioLogin.setVisible(true);
+            dispose();
+        }
+    }
+    
+    public void CrearImagenEnRoot(File imagenSeleccionada, Usuario user){
+        
+        VerificarDirectorioImagenRoot();
+        try{
+            String extension =imagenSeleccionada.getName().substring(imagenSeleccionada.getName().lastIndexOf(".") +1);
+            String DestinoRooot = "C:/MEIA/Imagenes/" +  user.nombreUsuario + "."+extension;
+            Path destino = Paths.get(DestinoRooot);
+
+            String origenImagen =  imagenSeleccionada.getPath();
+            Path pathOrigen = Paths.get(origenImagen);
+
+            Files.copy(pathOrigen, destino, REPLACE_EXISTING);
+            
+            user.path_fotografia = DestinoRooot.toString();
+            JOptionPane.showMessageDialog(null, "La imagen fue copiada a Root");
+        }
+        catch(IOException ex){
+            JOptionPane.showMessageDialog(null, "Error al copiar la imagen a Root");
+        }
+        
+    }
+    
+    public void VerificarDirectorioImagenRoot(){
+        String root = "C:\\MEIA\\Imagenes";
+        File imagenes = new File(root);
+        
+        if (!imagenes.exists()) {
+            imagenes.mkdir();
+        }
+        
+    }
+    public void EscribirEnBitacora(Usuario user, String rutaBitacora, String rutaDescriptor){
+        File archivoBitacora = new File(rutaBitacora);
+        File archivoDesciptor = new File(rutaDescriptor);
+        int lNumeroLineas = 0;
+        
+        try{
+            FileReader readerBitacora = new FileReader(rutaBitacora);
+            BufferedReader bfArchivoBitacora = new BufferedReader(readerBitacora);
+            SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            System.out.println(formatter.format(date));
+            try
+            {
+                    FileWriter Escribir = new FileWriter(archivoBitacora,true);
+                    BufferedWriter bw = new BufferedWriter(Escribir);
+                    bw.write(user.ToString()+ System.getProperty( "line.separator" ));
+                    bw.close();
+                    Escribir.close();
+                    System.out.println("Registro escrito en Bitacora");
+                    while ((bfArchivoBitacora.readLine())!=null) {
+                        lNumeroLineas++;
+                          System.out.println(lNumeroLineas);
+                      }
+                    try {
+
+                        FileWriter EscribirEnDescriptor = new FileWriter(archivoDesciptor,true);
+                        PrintWriter  bwD = new PrintWriter (EscribirEnDescriptor);
+                        bwD.write("nombre_simbolico:bitacora_usuario" + System.getProperty( "line.separator" ));
+                        bwD.write("fecha_creacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
+                        bwD.write("usuario_creacion:" + user.nombreUsuario + System.getProperty( "line.separator" ));
+                        bwD.write("fecha_modificacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
+                        bwD.write("usuario_modificacion:" + user.nombreUsuario + System.getProperty( "line.separator" ));
+                        bwD.write("#_registros:" + String.valueOf(lNumeroLineas) + System.getProperty( "line.separator" ));
+                        bwD.write("registros_activos:1" + System.getProperty( "line.separator" ));
+                        bwD.write("registros_inactivos:0" + System.getProperty( "line.separator" ));
+                        bwD.write("max_reorganizacion:3" + System.getProperty( "line.separator" ));
+                        bwD.close();
+                        EscribirEnDescriptor.close();
+                    }
+                    catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+            }
+            catch(IOException ex)
+            {
+                System.out.println(ex.getMessage());
+            } 
+            
+        }
+        catch(Exception ex){
+            System.out.println("Error");
+        }
+        
+    }
+    
+    public boolean VerificarSiEsPrimerUsuario(){
+        String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
+        
+        File archivoDescriptorBitacora = new File(rutaDescriptorBitacora);
+        
+        return archivoDescriptorBitacora.length() == 0;
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -656,11 +866,13 @@ public class registroForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -680,16 +892,23 @@ public class registroForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel labelErrorApellido;
+    private javax.swing.JLabel labelErrorCorreoAlterno;
+    private javax.swing.JLabel labelErrorFechaNacimiento;
+    private javax.swing.JLabel labelErrorNombre;
+    private javax.swing.JLabel labelErrorPassword;
+    private javax.swing.JLabel labelErrorRol;
+    private javax.swing.JLabel labelErrorTelefono;
     private javax.swing.JLabel labelErrorUsuario;
+    private javax.swing.JLabel labelEstatus;
     private javax.swing.JLabel labelIcono;
+    private javax.swing.JLabel labelPathFoto;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtEstatus;
     private javax.swing.JTextField txtNacimiento;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtPathFotografia;
     private javax.swing.JSpinner txtRol;
     private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtUsuario;

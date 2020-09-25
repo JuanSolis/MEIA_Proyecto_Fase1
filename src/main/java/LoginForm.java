@@ -56,7 +56,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         labelPass = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         labelLogin = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -114,8 +114,8 @@ public class LoginForm extends javax.swing.JFrame {
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel7.setOpaque(false);
 
-        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPasswordField1.setBorder(null);
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtPassword.setBorder(null);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -125,14 +125,14 @@ public class LoginForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelPass, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPass, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -238,9 +238,9 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void labelLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLoginMouseClicked
        
-        if (!txtUsuario.getText().equals("")) {
+        if (!txtUsuario.getText().equals("") && !txtPassword.getPassword().equals("")) {
              BuscarDirectorio();
-            BuscarUsuario(txtUsuario.getText());
+            BuscarUsuario(txtUsuario.getText(), txtPassword.getText());
         }
        
         
@@ -431,15 +431,18 @@ public class LoginForm extends javax.swing.JFrame {
         System.out.println("Directorio MEIA Creado en ROOT");
     }
     
-    public void BuscarUsuario(String nombreUsuario){
+    public void BuscarUsuario(String nombreUsuario, String password){
         BuscarBitacora();
         BuscarArchivoUsuario();
+        Usuario user = new Usuario();
         if (BuscarEnBitacora(nombreUsuario) != null) {
-            //Verificar Contrasena
+            user = BuscarEnBitacora(nombreUsuario);
+            verifcarPassword(user, password);
         }
         else {
             if (BuscarEnArchivoUsuario(nombreUsuario) != null) {
-                //Verificar Contrasena
+                user = BuscarEnArchivoUsuario(nombreUsuario);
+                verifcarPassword(user, password);
             }
             else {
                 String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
@@ -457,6 +460,16 @@ public class LoginForm extends javax.swing.JFrame {
         
     }
     
+    public void verifcarPassword(Usuario user, String password){
+        if (user.password.equals(password)) {
+            dashboard formularioDashboard = new dashboard(user);
+            formularioDashboard.setVisible(true);
+            dispose();
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        }
+    }
     
     
     public void BuscarBitacora(){
@@ -681,23 +694,17 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JLabel labelCerrar;
     private javax.swing.JLabel labelLogin;
     private javax.swing.JLabel labelPass;
     private javax.swing.JLabel labelUsuario;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;
-    private javax.swing.JTextField txtUsuario1;
-    private javax.swing.JTextField txtUsuario2;
     // End of variables declaration//GEN-END:variables
 }

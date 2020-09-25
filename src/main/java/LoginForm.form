@@ -173,7 +173,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="labelPass" min="-2" pref="32" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jPasswordField1" min="-2" pref="155" max="-2" attributes="0"/>
+                      <Component id="txtPassword" min="-2" pref="155" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -182,7 +182,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPasswordField1" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txtPassword" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="labelPass" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -192,7 +192,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="labelPass">
             </Component>
-            <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+            <Component class="javax.swing.JPasswordField" name="txtPassword">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
