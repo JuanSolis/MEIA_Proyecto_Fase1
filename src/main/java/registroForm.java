@@ -752,6 +752,35 @@ public class registroForm extends javax.swing.JFrame {
         }
     }
     
+//    public boolean espacionEnBitacora(String rutaDescriptorBitacora){
+// 
+//        String linea = "";
+//        FileReader readerArchivoDescriptor = new FileReader(rutaDescriptorBitacora);
+//        BufferedReader bfArchivoLectura = new BufferedReader(readerArchivoDescriptor);
+//        int lineaActual = 0;
+//        int numeroRegistros = 0;
+//        int maximoOrganizacion = 0;
+//        String[] cadenaLinea;
+//        while (( linea = bfArchivoLectura.readLine())!= null) {
+// 
+//            if (linea.contains("#_registros:")) {
+//                cadenaLinea = linea.split(":");
+//                numeroRegistros = Integer.parseInt(cadenaLinea[1]);
+//            }
+//           
+//
+//            if (linea.contains("max_reorganizacion:")) {
+//                cadenaLinea = linea.split(":");
+//                maximoOrganizacion = Integer.parseInt(cadenaLinea[1]);
+//            }
+//            lineaActual++;
+//        }
+//        bfArchivoLectura.close();
+//        readerArchivoDescriptor.close();
+//        
+//        return maximoOrganizacion == numeroRegistros;
+//        
+//    }
     public void CrearImagenEnRoot(File imagenSeleccionada, Usuario user){
         
         VerificarDirectorioImagenRoot();
@@ -990,7 +1019,6 @@ public class registroForm extends javax.swing.JFrame {
         String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
         
         File archivoDescriptorBitacora = new File(rutaDescriptorBitacora);
-        
         return archivoDescriptorBitacora.length() == 0;
         
     }
