@@ -55,7 +55,7 @@ public class dashboard extends javax.swing.JFrame {
        
        String rol = "";
        
-        if (usuarioActual.rol.equals("0")) {
+        if (usuarioActual.rol == 0) {
             rol = "Administrador";
         }
         else {
@@ -243,6 +243,7 @@ public class dashboard extends javax.swing.JFrame {
            LoginForm formularioLogin = new LoginForm();
            formularioLogin.setVisible(true);
             dispose();
+
         }
     }//GEN-LAST:event_labelCerrarSesionMouseClicked
 

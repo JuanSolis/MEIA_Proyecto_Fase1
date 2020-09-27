@@ -58,6 +58,7 @@ public class LoginForm extends javax.swing.JFrame {
         labelPass = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         labelLogin = new javax.swing.JLabel();
+        labelRegistrarUsuario = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -143,6 +144,18 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        labelRegistrarUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        labelRegistrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelRegistrarUsuario.setForeground(new java.awt.Color(51, 102, 255));
+        labelRegistrarUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelRegistrarUsuario.setText("Crear Cuenta");
+        labelRegistrarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelRegistrarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelRegistrarUsuarioMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -158,19 +171,22 @@ public class LoginForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(152, 152, 152))
+            .addComponent(labelRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelRegistrarUsuario)
+                .addGap(12, 12, 12)
                 .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 340, 270));
@@ -240,11 +256,20 @@ public class LoginForm extends javax.swing.JFrame {
        
         if (!txtUsuario.getText().equals("") && !txtPassword.getPassword().equals("")) {
              BuscarDirectorio();
-            BuscarUsuario(txtUsuario.getText(), txtPassword.getText());
+             BuscarUsuario(txtUsuario.getText(), txtPassword.getText());
         }
        
         
     }//GEN-LAST:event_labelLoginMouseClicked
+
+    private void labelRegistrarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelRegistrarUsuarioMouseClicked
+            BuscarDirectorio();
+            BuscarBitacora();
+            BuscarArchivoUsuario();
+            registroForm formularioRegistro =  new registroForm();
+            formularioRegistro.setVisible(true);
+            dispose();
+    }//GEN-LAST:event_labelRegistrarUsuarioMouseClicked
 
     public void VerificarSiExisteUsuario(String nombreUsuario){
         String rutaBitacoraUsuario = "C:\\MEIA\\bitacora_usuario.txt";
@@ -274,62 +299,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
     
     public void EscribirEnBitacora(Usuario user, String rutaBitacora, String rutaDescriptor){
-        File archivoBitacora = new File(rutaBitacora);
-        File archivoDesciptor = new File(rutaDescriptor);
-        
-        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        System.out.println(formatter.format(date));
-        Map<String,String> formatoDescriptor = new HashMap<String, String>();
-        
-        
-        try
-        {
-                FileWriter Escribir = new FileWriter(archivoBitacora,true);
-                BufferedWriter bw = new BufferedWriter(Escribir);
-                bw.write(user.ToString()+ System.getProperty( "line.separator" ));
-                bw.close();
-                Escribir.close();
-                System.out.println("Registro escrito en Bitacora");
-                
-                try {
-                    DescriptorBitacoraUsuario dBU = new DescriptorBitacoraUsuario();
-                     FileWriter EscribirEnDescriptor = new FileWriter(archivoDesciptor,true);
-                        PrintWriter  bwD = new PrintWriter (EscribirEnDescriptor);
-                    if (archivoDesciptor.length() > 0 ) {
-                        
-                       
-                       
-                        EscribirEnDescriptor.close();
-                        System.out.println("Registro escrito en Bitacora");
-                    }
-                    else {
-                       formatoDescriptor.put("nombre_simbolico:", "bitacora_usuario");
-                        formatoDescriptor.put("fecha_creacion:", date.toString());
-                        formatoDescriptor.put("usuario_creacion:", user.nombreUsuario);
-                        formatoDescriptor.put("fecha_modificacion:", date.toString());
-                        formatoDescriptor.put("usuario_modificacion:", user.nombreUsuario);
-                        formatoDescriptor.put("#_registros:", String.valueOf(archivoBitacora.length()));
-                        formatoDescriptor.put("registros_activos:", "1");
-                        formatoDescriptor.put("registros_inactivos:", "0");
-                        formatoDescriptor.put("max_reorganizacion:", "3");
-                        
-                        formatoDescriptor.forEach((key,value) -> {
-                            bwD.write((key+value) + System.getProperty( "line.separator" ) );
-                       });
-                 
-                    }
-                  
-                     bwD.close();
-                }
-                catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-        }
-        catch(IOException ex)
-        {
-            System.out.println(ex.getMessage());
-        } 
+       
     }
       
     public Usuario VerificarSiExiste(String strPath,String nombreUsuario,String strError)
@@ -356,16 +326,16 @@ public class LoginForm extends javax.swing.JFrame {
                                 
                                 if (split[9].equals("1")) {
                                     if (split[0].equals(nombreUsuario)) {
-                                        user.nombreUsuario = split[0];
+                                       user.nombreUsuario = split[0];
                                         user.nombre = split[1];
                                         user.apellido = split[2];
                                         user.password = split[3];
-                                        user.rol = split[4];
+                                        user.rol = Integer.parseInt(split[4]);
                                         user.fecha_nacimiento = split[5];
                                         user.correo_alterno = split[6];
-                                        user.telefono = split[7];
+                                        user.telefono = Integer.parseInt(split[7]);
                                         user.path_fotografia = split[8];
-                                        user.estatus = split[9];
+                                        user.estatus = Integer.parseInt(split[9]);
                                     }
                                     else {
                                         user = null;
@@ -445,16 +415,10 @@ public class LoginForm extends javax.swing.JFrame {
                 verifcarPassword(user, password);
             }
             else {
-                String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
-                File archivoDescriptorBitacora = new File(rutaDescriptorBitacora);
-                
-                if (archivoDescriptorBitacora.length() == 0) {
-                    System.out.println("Se Creara El primer Usuario modo Administrador");
-                    JOptionPane.showMessageDialog(null, "Se Creara El primer Usuario modo Administrador");
-                    registroForm formularioRegistro =  new registroForm(nombreUsuario);
-                    formularioRegistro.setVisible(true);
-                    dispose();
-                }
+
+            JOptionPane.showMessageDialog(null, "El usuario no existe");
+
+
             }
         }
         
@@ -560,13 +524,13 @@ public class LoginForm extends javax.swing.JFrame {
                                 user.nombre = split[1];
                                 user.apellido = split[2];
                                 user.password = split[3];
-                                user.rol = split[4];
+                                user.rol = Integer.parseInt(split[4]);
                                 user.fecha_nacimiento = split[5];
                                 user.correo_alterno = split[6];
-                                user.telefono = split[7];
+                                user.telefono = Integer.parseInt(split[7]);
                                 user.path_fotografia = split[8];
-                                user.estatus = split[9];
-                                if (user.estatus.equals("1")) {
+                                user.estatus = Integer.parseInt(split[9]);
+                                if (user.estatus == 1) {
                                     System.out.println("Se encontro el usuario " + user.nombreUsuario + "en Bitacora");
                                     
                                 }
@@ -621,13 +585,13 @@ public class LoginForm extends javax.swing.JFrame {
                                 user.nombre = split[1];
                                 user.apellido = split[2];
                                 user.password = split[3];
-                                user.rol = split[4];
+                                user.rol = Integer.parseInt(split[4]);
                                 user.fecha_nacimiento = split[5];
                                 user.correo_alterno = split[6];
-                                user.telefono = split[7];
+                                user.telefono = Integer.parseInt(split[7]);
                                 user.path_fotografia = split[8];
-                                user.estatus = split[9];
-                                if (user.estatus.equals("1")) {
+                                user.estatus = Integer.parseInt(split[9]);
+                                if (user.estatus == 1) {
                                     System.out.println("Se encontro el usuario " + user.nombreUsuario + "en Archivo Usuario");
                                     break;
                                 }
@@ -703,6 +667,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel labelCerrar;
     private javax.swing.JLabel labelLogin;
     private javax.swing.JLabel labelPass;
+    private javax.swing.JLabel labelRegistrarUsuario;
     private javax.swing.JLabel labelUsuario;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;

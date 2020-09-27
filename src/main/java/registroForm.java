@@ -8,14 +8,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -39,7 +41,7 @@ public class registroForm extends javax.swing.JFrame {
      * Creates new form registroForm
      */
     public String usuario;
-    public registroForm(String usuario) {
+    public registroForm() {
         initComponents();
          registroForm.this.setBackground(new Color(0,0,0,0));
         this.usuario = usuario;
@@ -53,13 +55,20 @@ public class registroForm extends javax.swing.JFrame {
        txtUsuario.grabFocus();
        
         if (VerificarSiEsPrimerUsuario()) {
-            txtRol.setValue(0);
-            txtRol.setEnabled(false);    
-        }
-        else {
             txtRol.setValue(1);
             txtRol.setEnabled(false);    
         }
+        else {
+            txtRol.setValue(0);
+            txtRol.setEnabled(false);    
+        }
+        
+        jLabel13.setVisible(false);
+        jPanel10.setVisible(false);
+        txtEstatus.setVisible(false);
+        txtEstatus.setText("1");
+        
+        
         
     }
 
@@ -134,7 +143,7 @@ public class registroForm extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 153, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Registro Administrador");
+        jLabel2.setText("Registro");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Usuario");
@@ -489,19 +498,21 @@ public class registroForm extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelErrorUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorRol, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelErrorCorreoAlterno, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelErrorTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelErrorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelErrorApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelErrorPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelErrorRol, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelErrorFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelErrorCorreoAlterno, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(labelEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(labelErrorTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(58, Short.MAX_VALUE))
+                    .addComponent(labelErrorUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(labelPathFoto)
@@ -513,16 +524,16 @@ public class registroForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelErrorUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelErrorUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
                                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -567,10 +578,9 @@ public class registroForm extends javax.swing.JFrame {
                                     .addComponent(jLabel13)
                                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(labelEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(14, 14, 14)))
-                        .addGap(18, 18, 18)
                         .addComponent(labelIcono, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(labelPathFoto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(53, 53, 53))
@@ -691,10 +701,11 @@ public class registroForm extends javax.swing.JFrame {
         user.nombre = txtNombre.getText();
         user.apellido = txtApellido.getText();
         user.password = txtPassword.getText();
-        user.rol = txtRol.getValue().toString();
+        user.rol = Integer.parseInt(txtRol.getValue().toString());
         user.fecha_nacimiento = txtNacimiento.getText();
+        user.telefono = Integer.parseInt(txtTelefono.getText());
         user.correo_alterno = txtCorreo.getText();
-        user.estatus = txtEstatus.getText();
+        user.estatus = Integer.parseInt(txtEstatus.getText());
         
         File imagenSeleccionadao = new File(labelPathFoto.getText());
         CrearImagenEnRoot(imagenSeleccionadao, user);
@@ -702,6 +713,7 @@ public class registroForm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_labelIconoMouseClicked
 
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          JFileChooser selector=new JFileChooser();
          selector.showOpenDialog(this);
@@ -725,11 +737,16 @@ public class registroForm extends javax.swing.JFrame {
         String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
         String rutaArchivoUsuario = "C:\\MEIA\\usuario.txt";
         String rutaDescriptorArchivoUsuario = "C:\\MEIA\\desc_usuario.txt";
+        LoginForm formularioLogin = new LoginForm();
         
         if (VerificarSiEsPrimerUsuario()) {
             EscribirEnBitacora(user, rutaArchivoBitacora, rutaDescriptorBitacora);
             JOptionPane.showMessageDialog(null, "Usuario Creado");
-            LoginForm formularioLogin = new LoginForm();
+            formularioLogin.setVisible(true);
+            dispose();
+        }else{
+            EscribirEnArchivo(user, rutaArchivoBitacora, rutaDescriptorBitacora);
+            JOptionPane.showMessageDialog(null, "Usuario Creado");
             formularioLogin.setVisible(true);
             dispose();
         }
@@ -766,9 +783,143 @@ public class registroForm extends javax.swing.JFrame {
         }
         
     }
+    
+    public void EscribirEnArchivo(Usuario user, String rutaArchivo, String rutaDescriptor){
+        File archivo = new File(rutaArchivo);
+        File archivoDesciptor = new File(rutaDescriptor);
+       
+        List lista = new ArrayList();
+        int lNumeroLineas = 0;
+        
+        try{
+            FileReader readerArchivo = new FileReader(archivo);
+            BufferedReader bfArchivo = new BufferedReader(readerArchivo);
+            SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            System.out.println(formatter.format(date));
+            try
+            {
+                    FileWriter escribirEnMaestro = new FileWriter(archivo,true);
+                    BufferedWriter bw = new BufferedWriter(escribirEnMaestro);
+                 
+                    
+                    bw.write(user.DelimitarCaracteres()+ System.getProperty( "line.separator" ));
+                    System.out.println("Registro escrito");
+                    bw.close();
+                    escribirEnMaestro.close();
+                    
+                    while ((bfArchivo.readLine())!=null) {
+                        lNumeroLineas++; 
+                    }
+
+                    bfArchivo.close();
+                    System.out.println("Cantidad de lineas:" + lNumeroLineas);
+                    System.out.println("----------------------------------------------");
+                    try {
+                        
+                        
+                      
+                        FileReader readerArchivoDescriptor = new FileReader(archivoDesciptor);
+                        BufferedReader bfArchivoLectura = new BufferedReader(readerArchivoDescriptor);
+                        
+                       
+                        int lineaActual = 0;
+              
+                        String linea = "";
+                        String lineaModificada = "";
+                        while (( linea = bfArchivoLectura.readLine())!= null) {
+                            System.out.println(linea);
+                            lista.add(linea);
+                            
+                            if (linea.contains("fecha_modificacion:")) { 
+                               
+                                lineaModificada = ("fecha_modificacion:" + formatter.format(date).toString());
+                                lista.set(lineaActual, lineaModificada); 
+                                                         
+                            }
+                            if (linea.contains("usuario_modificacion:")) {
+                                lineaModificada = ("usuario_modificacion:" + user.nombreUsuario);
+                                lista.set(lineaActual, lineaModificada); 
+                                
+                            }
+                          
+                            if (linea.contains("#_registros:")) {
+                                lineaModificada = ("#_registros:" + String.valueOf(lNumeroLineas));
+                                lista.set(lineaActual, lineaModificada); 
+   
+                            }
+                            if (linea.contains("registros_activos:")) {
+                                lineaModificada = ("registros_activos:" + (cantidadActivos(linea)+1));
+                                lista.set(lineaActual, lineaModificada); 
+                                
+                            }
+                            if (linea.contains("registros_inactivos:")) {
+                                lineaModificada = ("registros_inactivos:" + (cantidadInactivos(linea)));
+                                lista.set(lineaActual, lineaModificada); 
+                                
+                                
+                            }
+//                            
+                            if (linea.contains("max_reorganizacion:")) {
+                                lineaModificada = ("max_reorganizacion:" + (cantidadReOrganizacion(linea)));
+                                lista.set(lineaActual, lineaModificada); 
+                               
+                              
+                            }
+                            lineaActual++;
+                        }
+                       
+                        
+                        bfArchivoLectura.close();
+                        readerArchivoDescriptor.close();
+                        
+                        
+                        Iterator iter = lista.iterator();
+                     
+                       
+                        archivoDesciptor.delete();
+                        
+                        if (!archivoDesciptor.exists()) {
+                       
+                            File nuevoArchivoDecriptor = new File(rutaDescriptor);
+                            nuevoArchivoDecriptor.createNewFile();
+
+
+                              FileWriter escribirEnDescriptor = new FileWriter(nuevoArchivoDecriptor,true);
+
+                            linea = "";
+
+
+                            while(iter.hasNext()) {
+                                escribirEnDescriptor.write((iter.next().toString() + System.getProperty("line.separator")));
+                            }
+
+
+
+                            escribirEnDescriptor.close();
+                        }
+                        
+                    }
+                    catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                    
+            }
+            catch(IOException ex)
+            {
+                System.out.println(ex.getMessage());
+            } 
+            
+        }
+        catch(Exception ex){
+            System.out.println("Error");
+        }
+    }
+    
     public void EscribirEnBitacora(Usuario user, String rutaBitacora, String rutaDescriptor){
         File archivoBitacora = new File(rutaBitacora);
         File archivoDesciptor = new File(rutaDescriptor);
+        
         int lNumeroLineas = 0;
         
         try{
@@ -781,7 +932,7 @@ public class registroForm extends javax.swing.JFrame {
             {
                     FileWriter Escribir = new FileWriter(archivoBitacora,true);
                     BufferedWriter bw = new BufferedWriter(Escribir);
-                    bw.write(user.ToString()+ System.getProperty( "line.separator" ));
+                    bw.write(user.DelimitarCaracteres()+ System.getProperty( "line.separator" ));
                     bw.close();
                     Escribir.close();
                     System.out.println("Registro escrito en Bitacora");
@@ -790,7 +941,6 @@ public class registroForm extends javax.swing.JFrame {
                           System.out.println(lNumeroLineas);
                       }
                     try {
-
                         FileWriter EscribirEnDescriptor = new FileWriter(archivoDesciptor,true);
                         PrintWriter  bwD = new PrintWriter (EscribirEnDescriptor);
                         bwD.write("nombre_simbolico:bitacora_usuario" + System.getProperty( "line.separator" ));
@@ -820,6 +970,21 @@ public class registroForm extends javax.swing.JFrame {
         }
         
     }
+    public int cantidadActivos(String linea){
+        String[] lineaActual = linea.split(":");
+        return  Integer.parseInt(lineaActual[1]);
+    }
+    
+    public int cantidadInactivos(String linea){
+        String[] lineaActual = linea.split(":");
+        return  Integer.parseInt(lineaActual[1]);
+    }
+    
+    public int cantidadReOrganizacion(String linea){
+        String[] lineaActual = linea.split(":");
+        return  Integer.parseInt(lineaActual[1]);
+    }
+    
     
     public boolean VerificarSiEsPrimerUsuario(){
         String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
