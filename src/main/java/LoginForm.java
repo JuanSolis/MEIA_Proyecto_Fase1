@@ -39,6 +39,12 @@ public class LoginForm extends javax.swing.JFrame {
         Icon iconoIngresar = new ImageIcon(ingresar.getImage().getScaledInstance(labelLogin.getWidth(), labelLogin.getHeight(), Image.SCALE_FAST));
        
        labelLogin.setIcon(iconoIngresar);
+       
+       ImageIcon logo = new ImageIcon("src/Imagenes/Logo S2.png");
+        Icon iconoLogo = new ImageIcon(logo.getImage().getScaledInstance(labelLogo.getWidth(), labelLogo.getHeight(), Image.SCALE_FAST));
+       
+       labelLogo.setIcon(iconoLogo);
+       
        txtUsuario.grabFocus();
     }
 
@@ -58,6 +64,7 @@ public class LoginForm extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         labelLogin = new javax.swing.JLabel();
         labelRegistrarUsuario = new javax.swing.JLabel();
+        labelLogo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -72,7 +79,7 @@ public class LoginForm extends javax.swing.JFrame {
                 labelCerrarMouseClicked(evt);
             }
         });
-        getContentPane().add(labelCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 60, 32, 32));
+        getContentPane().add(labelCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 22, 32, 30));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -155,6 +162,13 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        labelLogo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelLogo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLogoMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -171,13 +185,19 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(labelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(152, 152, 152))
             .addComponent(labelRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(64, 64, 64)
+                .addContainerGap()
+                .addComponent(labelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,7 +208,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 340, 270));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 340, 310));
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -269,6 +289,10 @@ public class LoginForm extends javax.swing.JFrame {
             formularioRegistro.setVisible(true);
             dispose();
     }//GEN-LAST:event_labelRegistrarUsuarioMouseClicked
+
+    private void labelLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLogoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelLogoMouseClicked
 
     public void VerificarSiExisteUsuario(String nombreUsuario){
         String rutaBitacoraUsuario = "C:\\MEIA\\bitacora_usuario.txt";
@@ -670,6 +694,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel labelCerrar;
     private javax.swing.JLabel labelLogin;
+    private javax.swing.JLabel labelLogo;
     private javax.swing.JLabel labelPass;
     private javax.swing.JLabel labelRegistrarUsuario;
     private javax.swing.JLabel labelUsuario;
