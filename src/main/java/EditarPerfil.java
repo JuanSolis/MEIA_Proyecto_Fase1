@@ -2,32 +2,18 @@
 import java.awt.Color;
 import java.awt.Image;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,45 +23,25 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author warfa
+ * @author Juan-Gtsk
  */
-public class registroForm extends javax.swing.JFrame {
+public class EditarPerfil extends javax.swing.JFrame {
 
     /**
-     * Creates new form registroForm
+     * Creates new form EditarPerfil
      */
     
-    public registroForm() {
+    File locationActual;
+    Usuario userActual;
+    public EditarPerfil(Usuario user,File location) {
         initComponents();
-         registroForm.this.setBackground(new Color(0,0,0,0));
-        
-    
-        
-         ImageIcon enviar = new ImageIcon("src/Imagenes/paper-plane.png");
+        locationActual = location;
+        userActual = user;
+       ImageIcon enviar = new ImageIcon("src/Imagenes/paper-plane.png");
        Icon iconoCerrar = new ImageIcon(enviar.getImage().getScaledInstance(labelIcono.getWidth(), labelIcono.getHeight(), Image.SCALE_SMOOTH));
        
        labelIcono.setIcon(iconoCerrar);
-       
-       txtUsuario.grabFocus();
-       
-        if (VerificarSiEsPrimerUsuario()) {
-            txtRol.setValue(1);
-            txtRol.setEnabled(false);    
-        }
-        else {
-            txtRol.setValue(0);
-            txtRol.setEnabled(false);    
-        }
-        
-        jLabel13.setVisible(false);
-        jPanel10.setVisible(false);
-        txtEstatus.setVisible(false);
-        txtEstatus.setText("1");
-        
-        
-        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,11 +93,10 @@ public class registroForm extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         labelPathFoto = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -584,21 +549,6 @@ public class registroForm extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 520, 520));
 
-        jPanel14.setBackground(new java.awt.Color(153, 153, 255));
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 290, 330));
-
         jPanel11.setBackground(new java.awt.Color(255, 102, 102));
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -614,107 +564,27 @@ public class registroForm extends javax.swing.JFrame {
 
         getContentPane().add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 650, 200));
 
+        jPanel14.setBackground(new java.awt.Color(153, 153, 255));
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 290, Short.MAX_VALUE)
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 330, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 290, 330));
+
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser selector=new JFileChooser();
-        selector.showOpenDialog(this);
-
-        File archivo = selector.getSelectedFile();
-
-        if (archivo != null) {
-            String Origen = archivo.getPath();
-            ImageIcon ingresar = new ImageIcon(Origen);
-            Icon iconoIngresar = new ImageIcon(ingresar.getImage().getScaledInstance(jLabel14.getWidth(), jLabel14.getHeight(), Image.SCALE_FAST));
-            jLabel14.setIcon(iconoIngresar);
-            labelPathFoto.setText(Origen);
-            labelPathFoto.setVisible(false);
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Por favor seleccione una imagen");
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void labelIconoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelIconoMouseClicked
-        Usuario user = new Usuario();
-
-        user.nombreUsuario = txtUsuario.getText();
-        user.nombre = txtNombre.getText();
-        user.apellido = txtApellido.getText();
-        user.password = txtPassword.getText();
-        user.rol = Integer.parseInt(txtRol.getValue().toString());
-        user.fecha_nacimiento = txtNacimiento.getText();
-        user.telefono = Integer.parseInt(txtTelefono.getText());
-        user.correo_alterno = txtCorreo.getText();
-        user.estatus = Integer.parseInt(txtEstatus.getText());
-
-        File imagenSeleccionadao = new File(labelPathFoto.getText());
-        CrearImagenEnRoot(imagenSeleccionadao, user);
-        try{
-            InsertarUsuario(user);
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }
-
-    }//GEN-LAST:event_labelIconoMouseClicked
-
-    private void txtEstatusKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstatusKeyTyped
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstatusKeyTyped
-
-    private void txtEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstatusActionPerformed
-
-    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefonoKeyTyped
-
-    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefonoActionPerformed
-
-    private void txtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoKeyTyped
-
-    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoActionPerformed
-
-    private void txtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNacimientoKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNacimientoKeyTyped
-
-    private void txtNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNacimientoActionPerformed
-
-    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordKeyTyped
-
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
-    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoKeyTyped
-
-    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoActionPerformed
-
-    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreKeyTyped
-
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
+    }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
         if (txtUsuario.getText().length() == 5 ) {
@@ -728,295 +598,116 @@ public class registroForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtUsuarioKeyTyped
 
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuarioActionPerformed
+    }//GEN-LAST:event_txtNombreActionPerformed
 
-        public void InsertarUsuario(Usuario user) throws IOException{
-        String rutaArchivoBitacora = "C:\\MEIA\\bitacora_usuario.txt";
-        String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
-        String rutaArchivoUsuario = "C:\\MEIA\\usuario.txt";
-        String rutaDescriptorArchivoUsuario = "C:\\MEIA\\desc_usuario.txt";
-        LoginForm formularioLogin = new LoginForm();
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtApellidoActionPerformed
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordKeyTyped
+
+    private void txtNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNacimientoActionPerformed
+
+    private void txtNacimientoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNacimientoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNacimientoKeyTyped
+
+    private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoActionPerformed
+
+    private void txtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoKeyTyped
+
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoActionPerformed
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void txtEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEstatusActionPerformed
+
+    private void txtEstatusKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstatusKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEstatusKeyTyped
+
+    private void labelIconoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelIconoMouseClicked
+        Usuario user = new Usuario();
         
-        File archivoBitacora = new File(rutaArchivoBitacora);
-        File DescriptorBitacora = new File(rutaDescriptorBitacora);
-        File archivoMaestro = new File(rutaArchivoUsuario);
-        File archivoDescriptorMaestro = new File(rutaDescriptorArchivoUsuario);
-        
-        if (VerificarSiEsPrimerUsuario()) {
-            EscribirEnBitacora(user, archivoBitacora, DescriptorBitacora);
-            JOptionPane.showMessageDialog(null, "Usuario Creado");
-            formularioLogin.setVisible(true);
-            dispose();
-        }else{
-            //Si hay espacio en bitacora, inserta en bitacora
-            if (!espacionEnBitacora(rutaDescriptorBitacora)) {
-                EscribirEnArchivo(user, rutaArchivoBitacora, rutaDescriptorBitacora);
-                JOptionPane.showMessageDialog(null, "Usuario Creado");
-                formularioLogin.setVisible(true);
-                dispose();
-            }
-             //Si no hay espacio en Bitacora, inserta en Archivo Maestro
-            else {
-            
-                reOrganizar(archivoBitacora,DescriptorBitacora,archivoMaestro,archivoDescriptorMaestro, user);
-                
-                DescriptorBitacora.delete();
-                archivoBitacora.delete();
-                 if (!DescriptorBitacora.exists() && !archivoBitacora.exists()) {
-                    File nuevoArchivoBitacora = new File(rutaArchivoBitacora);
-                    nuevoArchivoBitacora.createNewFile();
-                    File nuevoArchivoDesciptorBitacora = new File(rutaDescriptorBitacora);
-                    nuevoArchivoDesciptorBitacora.createNewFile();
-                   
-                     EscribirEnBitacora(user, nuevoArchivoBitacora, nuevoArchivoDesciptorBitacora);
-                     JOptionPane.showMessageDialog(null, "Usuario Creado");
-                    formularioLogin.setVisible(true);
-                    dispose();
-                    
-                }
-               
-            }
-            
+        user.nombreUsuario = txtUsuario.getText();
+        user.nombre = txtNombre.getText();
+        user.apellido = txtApellido.getText();
+        user.password = txtPassword.getText();
+        user.rol = Integer.parseInt(txtRol.getValue().toString());
+        user.fecha_nacimiento = txtNacimiento.getText();
+        user.telefono = Integer.parseInt(txtTelefono.getText());
+        user.correo_alterno = txtCorreo.getText();
+        user.estatus = Integer.parseInt(txtEstatus.getText());
+
+        File imagenSeleccionadao = new File(labelPathFoto.getText());
+        CrearImagenEnRoot(imagenSeleccionadao, user);
+        try{
+            editarUsuario(userActual, user,locationActual);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
-    }
+    }//GEN-LAST:event_labelIconoMouseClicked
     
-    public boolean espacionEnBitacora(String rutaDescriptorBitacora) throws IOException{
- 
+    public void editarUsuario(Usuario usuarioActual,Usuario usuarioReescrito, File archivo) throws IOException{
+        FileReader reader = new FileReader(archivo);
+        BufferedReader bf = new BufferedReader(reader);
         String linea = "";
-        FileReader readerArchivoDescriptor = new FileReader(rutaDescriptorBitacora);
-        BufferedReader bfArchivoLectura = new BufferedReader(readerArchivoDescriptor);
-        int lineaActual = 0;
-        int numeroRegistros = 0;
-        int maximoOrganizacion = 0;
-        String[] cadenaLinea;
-        while (( linea = bfArchivoLectura.readLine())!= null) {
+        int lineaPosicion = 0;
+        int longitudLinea = 0;
+        
+        RandomAccessFile escritor = new RandomAccessFile(archivo.getPath(), "rw");
+        System.out.println("Editando");
+        while ((linea = bf.readLine()) != null) {
+            longitudLinea = linea.length();
+                if (linea.contains(usuarioActual.nombreUsuario)) {
+                    escritor.seek((lineaPosicion * 400));
  
-            if (linea.contains("#_registros:")) {
-                cadenaLinea = linea.split(":");
-                numeroRegistros = Integer.parseInt(cadenaLinea[1]);
-            }
-           
-            if (linea.contains("max_reorganizacion:")) {
-                cadenaLinea = linea.split(":");
-                maximoOrganizacion = Integer.parseInt(cadenaLinea[1]);
-            }
-            lineaActual++;
+                        escritor.writeBytes(usuarioReescrito.DelimitarCaracteres());
+                        System.out.println(usuarioReescrito.DelimitarCaracteres());
+                    System.out.println(usuarioReescrito.DelimitarCaracteres());
+          
+
+                }
+            lineaPosicion++;
         }
-        bfArchivoLectura.close();
-        readerArchivoDescriptor.close();
         
-        return maximoOrganizacion == numeroRegistros;
-        
+        escritor.close();
+        reader.close();
+        bf.close();
+        JOptionPane.showMessageDialog(null,"perfil Editado");
+        dashboard formularioMain = new dashboard(usuarioReescrito, archivo.getPath());
+        formularioMain.setVisible(true);
+        dispose();
     }
-    
-    public void reOrganizar(File ArchivoBitacora, File DescriptorBitacora,File ArchivoMaestro, File DescriptorArchivoMaestro, Usuario user) throws IOException{
-        
-        FileReader readerBitacora = new FileReader(ArchivoBitacora);
-        BufferedReader bfArchivo = new BufferedReader(readerBitacora);
-        String lineaBitacora = "";
-        String[] lineas;
-        HashMap<String,String> ColeccionMapaMaestro = new HashMap<String, String>();
-        
-       
-        
-        FileWriter escribirEnMaestro = new FileWriter(ArchivoMaestro,true);
-        BufferedWriter bw = new BufferedWriter(escribirEnMaestro);
-        int registros = 0;
-        while ((lineaBitacora = bfArchivo.readLine()) != null) {
-                bw.write(lineaBitacora+ System.getProperty("line.separator"));
-                
-        }
-        //Cerrar los buffers
-        bw.close();
-        escribirEnMaestro.close();
-        bfArchivo.close();
-        readerBitacora.close();
-        
-        
-        FileReader readerUsuario = new FileReader(ArchivoMaestro);
-        BufferedReader bfUsuario = new BufferedReader(readerUsuario);
-        
-        String lineaUsuario = "";
-        while ((lineaUsuario = bfUsuario.readLine()) != null) {
-                
-            lineas = lineaUsuario.split("\\|");
-            ColeccionMapaMaestro.put(lineas[0], lineaUsuario);
-            registros++;
-                
-        }
-        readerUsuario.close();
-        bfUsuario.close();
-        
-        
-        
-        
-        FileWriter escribirEnDescriptorMaestro = new FileWriter(DescriptorArchivoMaestro,true);
-        BufferedWriter bwDescriptor = new BufferedWriter(escribirEnDescriptorMaestro);
-        if (DescriptorArchivoMaestro.length() == 0) {
-            EscribirPrimeraVezEnDescriptor(bwDescriptor, user,registros);
-        }
-        else {
-            EscribirEnDescriptor(DescriptorArchivoMaestro,user,registros);
-        }
-        escribirEnDescriptorMaestro.close();
-        bwDescriptor.close();
-        InsertarEnArchivoMaestro(ordenamientoBurbuja(ColeccionMapaMaestro),ArchivoMaestro);
-        
-    }
-    public void EscribirPrimeraVezEnDescriptor(BufferedWriter bwDescriptor, Usuario user, int registros )throws IOException {
-        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        bwDescriptor.write("nombre_simbolico:usuario" + System.getProperty( "line.separator" ));
-        bwDescriptor.write("fecha_creacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
-        bwDescriptor.write("usuario_creacion:" + user.nombreUsuario + System.getProperty( "line.separator" ));
-        bwDescriptor.write("fecha_modificacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
-        bwDescriptor.write("usuario_modificacion:" + user.nombreUsuario + System.getProperty( "line.separator" ));
-        bwDescriptor.write("#_registros:" + String.valueOf(registros) + System.getProperty( "line.separator" ));
-        bwDescriptor.write("registros_activos:"+ String.valueOf(registros)  + System.getProperty( "line.separator" ));
-        bwDescriptor.write("registros_inactivos:0" + System.getProperty( "line.separator" ));
-        bwDescriptor.close();
-    }
-    
-    public void EscribirEnDescriptor(File DescriptorArchivoMaestro, Usuario user, int registros )throws IOException {
-        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        
-        FileReader readerArchivoDescriptor = new FileReader(DescriptorArchivoMaestro);
-        BufferedReader bfReaderArchivoDesciptor = new BufferedReader(readerArchivoDescriptor);
-
-        String path = DescriptorArchivoMaestro.getPath();
-        int lineaActual = 0;
-
-        String linea = "";
-        String lineaModificada = "";
-        System.out.println("--------------DESCRIPTOR MAESTRO---------------");
-            List lista = new ArrayList();
-            while (( linea = bfReaderArchivoDesciptor.readLine())!= null) {
-                System.out.println(linea);
-                lista.add(linea);
-
-                if (linea.contains("fecha_modificacion:")) { 
-
-                    lineaModificada = ("fecha_modificacion:" + formatter.format(date).toString());
-                    lista.set(lineaActual, lineaModificada); 
-
-                }
-                if (linea.contains("usuario_modificacion:")) {
-                    lineaModificada = ("usuario_modificacion:" + user.nombreUsuario);
-                    lista.set(lineaActual, lineaModificada); 
-
-                }
-
-                if (linea.contains("#_registros:")) {
-                    lineaModificada = ("#_registros:" + String.valueOf(registros));
-                    lista.set(lineaActual, lineaModificada); 
-
-                }
-                if (linea.contains("registros_activos:")) {
-                    lineaModificada = ("registros_activos:" + registros);
-                    lista.set(lineaActual, lineaModificada); 
-
-                }
-                if (linea.contains("registros_inactivos:")) {
-                    lineaModificada = ("registros_inactivos:" + (cantidadInactivos(linea)));
-                    lista.set(lineaActual, lineaModificada); 
-
-
-                }
-    //                            
-                lineaActual++;
-            }
-
-
-        bfReaderArchivoDesciptor.close();
-        readerArchivoDescriptor.close();
-
-
-        Iterator iter = lista.iterator();
-
-
-//        DescriptorArchivoMaestro.delete();
-//
-//        if (!DescriptorArchivoMaestro.exists()) {
-//
-//            File nuevoArchivoDecriptor = new File(path);
-//            nuevoArchivoDecriptor.createNewFile();
-//
-//
-//              FileWriter escribirEnDescriptor = new FileWriter(nuevoArchivoDecriptor,true);
-//              
-//                while(iter.hasNext()) {
-//                    escribirEnDescriptor.write((iter.next().toString() + System.getProperty("line.separator")));
-//                }
-//            }
-        
-    }
-    public void InsertarEnArchivoMaestro(List contenidoBitacora, File archivoMaestro) throws IOException{
-
-        String path = archivoMaestro.getPath();
-        archivoMaestro.delete();
-        
-         if (!archivoMaestro.exists()) {
-                       
-            File nuevoArchivoMaestro = new File(path);
-            nuevoArchivoMaestro.createNewFile();
-
-
-              FileWriter escribirEnMaestroNuevo = new FileWriter(nuevoArchivoMaestro,true);
-
-              System.out.println("CONTENIDO MAESTRO ORDENADO");
-                  contenidoBitacora.forEach((x) -> {
-                try {
-                    escribirEnMaestroNuevo.write(x + System.getProperty("line.separator"));
-                    System.out.println(x);
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            });
-        
-       
-            escribirEnMaestroNuevo.close();
-        }
-         else{
-             System.out.println("Sigue existiendo ARchivo Maestro");
-         }
-        
-        
-    }
-    public List ordenamientoBurbuja(HashMap lineas){
-        List<String> list=new ArrayList<String>();
-        list.addAll(lineas.keySet());
-        list.forEach(x -> System.out.println("LLAVE:" + x));
-        String temp;
-        boolean sorted = false;
-        while (!sorted) {
-            sorted = true;
-            for (int i = 0; i < list.size()-1; i++) {
-                if (list.get(i).compareTo(list.get(i + 1)) > 0) {
-                    temp = list.get(i);
-                    list.set(i, list.get(i + 1));
-                    list.set(i + 1, temp);
-                    sorted = false;
-                }
-            }
-            
-        }
-        list.forEach(x -> System.out.println("LLAVE ORDENADAS:" + x));
-         List<String> listOrdenada=new ArrayList<String>();
-
-            list.forEach(x -> {
-                 System.out.println("X: " + x + "linea:"+lineas.get(x).toString());
-                 listOrdenada.add(lineas.get(x).toString());
-                 
-            });
-            
-            System.out.println("Mapa ORDENADO");
-            listOrdenada.forEach(x -> System.out.println(x));
-        return listOrdenada;
-    }
-    public void CrearImagenEnRoot(File imagenSeleccionada, Usuario user){
+     public void CrearImagenEnRoot(File imagenSeleccionada, Usuario user){
         
         VerificarDirectorioImagenRoot();
         try{
@@ -1048,216 +739,25 @@ public class registroForm extends javax.swing.JFrame {
         
     }
     
-    public void EscribirEnArchivo(Usuario user, String rutaArchivo, String rutaDescriptor){
-        File archivo = new File(rutaArchivo);
-        File archivoDesciptor = new File(rutaDescriptor);
-       
-        List lista = new ArrayList();
-        int lNumeroLineas = 0;
-        
-        try{
-            FileReader readerArchivo = new FileReader(archivo);
-            BufferedReader bfArchivo = new BufferedReader(readerArchivo);
-            SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
-            Date date = new Date(System.currentTimeMillis());
-            System.out.println(formatter.format(date));
-            try
-            {
-                    FileWriter escribirEnArchivo = new FileWriter(archivo,true);
-                    BufferedWriter bw = new BufferedWriter(escribirEnArchivo);
-                 
-                    
-                    bw.write(user.DelimitarCaracteres()+ System.getProperty( "line.separator" ));
-                    System.out.println("Registro escrito");
-                    bw.close();
-                    escribirEnArchivo.close();
-                    
-                    while ((bfArchivo.readLine())!=null) {
-                        lNumeroLineas++; 
-                    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser selector=new JFileChooser();
+        selector.showOpenDialog(this);
 
-                    bfArchivo.close();
-                    readerArchivo.close();
-                    System.out.println("Cantidad de lineas:" + lNumeroLineas);
-                    System.out.println("----------------------------------------------");
-                    try {
-                        
-                        
-                      
-                        FileReader readerArchivoDescriptor = new FileReader(archivoDesciptor);
-                        BufferedReader bfArchivoLectura = new BufferedReader(readerArchivoDescriptor);
-                        
-                       
-                        int lineaActual = 0;
-              
-                        String linea = "";
-                        String lineaModificada = "";
-                        while (( linea = bfArchivoLectura.readLine())!= null) {
-                            System.out.println(linea);
-                            lista.add(linea);
-                            
-                            if (linea.contains("fecha_modificacion:")) { 
-                               
-                                lineaModificada = ("fecha_modificacion:" + formatter.format(date).toString());
-                                lista.set(lineaActual, lineaModificada); 
-                                                         
-                            }
-                            if (linea.contains("usuario_modificacion:")) {
-                                lineaModificada = ("usuario_modificacion:" + user.nombreUsuario);
-                                lista.set(lineaActual, lineaModificada); 
-                                
-                            }
-                          
-                            if (linea.contains("#_registros:")) {
-                                lineaModificada = ("#_registros:" + String.valueOf(lNumeroLineas));
-                                lista.set(lineaActual, lineaModificada); 
-   
-                            }
-                            if (linea.contains("registros_activos:")) {
-                                lineaModificada = ("registros_activos:" + (cantidadActivos(linea)+1));
-                                lista.set(lineaActual, lineaModificada); 
-                                
-                            }
-                            if (linea.contains("registros_inactivos:")) {
-                                lineaModificada = ("registros_inactivos:" + (cantidadInactivos(linea)));
-                                lista.set(lineaActual, lineaModificada); 
-                                
-                                
-                            }
-//                            
-                            if (linea.contains("max_reorganizacion:")) {
-                                lineaModificada = ("max_reorganizacion:" + (cantidadReOrganizacion(linea)));
-                                lista.set(lineaActual, lineaModificada); 
-                               
-                              
-                            }
-                            lineaActual++;
-                        }
-                       
-                        
-                        bfArchivoLectura.close();
-                        readerArchivoDescriptor.close();
-                        
-                        
-                        Iterator iter = lista.iterator();
-                     
-                       
-                        archivoDesciptor.delete();
-                        
-                        if (!archivoDesciptor.exists()) {
-                       
-                            File nuevoArchivoDecriptor = new File(rutaDescriptor);
-                            nuevoArchivoDecriptor.createNewFile();
+        File archivo = selector.getSelectedFile();
 
-
-                              FileWriter escribirEnDescriptor = new FileWriter(nuevoArchivoDecriptor,true);
-
-                            linea = "";
-
-
-                            while(iter.hasNext()) {
-                                escribirEnDescriptor.write((iter.next().toString() + System.getProperty("line.separator")));
-                            }
-
-
-
-                            escribirEnDescriptor.close();
-                        }
-                        
-                    }
-                    catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                    
-            }
-            catch(IOException ex)
-            {
-                System.out.println(ex.getMessage());
-            } 
-            
+        if (archivo != null) {
+            String Origen = archivo.getPath();
+            ImageIcon ingresar = new ImageIcon(Origen);
+            Icon iconoIngresar = new ImageIcon(ingresar.getImage().getScaledInstance(jLabel14.getWidth(), jLabel14.getHeight(), Image.SCALE_FAST));
+            jLabel14.setIcon(iconoIngresar);
+            labelPathFoto.setText(Origen);
+            labelPathFoto.setVisible(false);
         }
-        catch(Exception ex){
-            System.out.println("Error");
+        else {
+            JOptionPane.showMessageDialog(null, "Por favor seleccione una imagen");
         }
-    }
-    
-    public void EscribirEnBitacora(Usuario user, File Bitacora, File Descriptor) throws IOException{
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-        int lNumeroLineas = 0;
-        
-        try{
-            FileReader readerBitacora = new FileReader(Bitacora);
-            BufferedReader bfArchivoBitacora = new BufferedReader(readerBitacora);
-            SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
-            Date date = new Date(System.currentTimeMillis());
-            try
-            {
-                    FileWriter Escribir = new FileWriter(Bitacora,true);
-                    BufferedWriter bw = new BufferedWriter(Escribir);
-                    bw.write(user.DelimitarCaracteres()+ System.getProperty( "line.separator" ));
-                    bw.close();
-                    Escribir.close();
-                    System.out.println("Registro escrito en Bitacora");
-                    while ((bfArchivoBitacora.readLine())!=null) {
-                        lNumeroLineas++;
-                      }
-                    try {
-                        FileWriter EscribirEnDescriptor = new FileWriter(Descriptor,true);
-                        PrintWriter  bwD = new PrintWriter (EscribirEnDescriptor);
-                        bwD.write("nombre_simbolico:bitacora_usuario" + System.getProperty( "line.separator" ));
-                        bwD.write("fecha_creacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
-                        bwD.write("usuario_creacion:" + user.nombreUsuario + System.getProperty( "line.separator" ));
-                        bwD.write("fecha_modificacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
-                        bwD.write("usuario_modificacion:" + user.nombreUsuario + System.getProperty( "line.separator" ));
-                        bwD.write("#_registros:" + String.valueOf(lNumeroLineas) + System.getProperty( "line.separator" ));
-                        bwD.write("registros_activos:1" + System.getProperty( "line.separator" ));
-                        bwD.write("registros_inactivos:0" + System.getProperty( "line.separator" ));
-                        bwD.write("max_reorganizacion:3" + System.getProperty( "line.separator" ));
-                        bwD.close();
-                        EscribirEnDescriptor.close();
-                    }
-                    catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                    
-                bfArchivoBitacora.close();
-                readerBitacora.close();
-            }
-            catch(IOException ex)
-            {
-                System.out.println(ex.getMessage());
-            } 
-            
-        }
-        catch(Exception ex){
-            System.out.println("Error");
-        }
-        
-    }
-    public int cantidadActivos(String linea){
-        String[] lineaActual = linea.split(":");
-        return  Integer.parseInt(lineaActual[1]);
-    }
-    
-    public int cantidadInactivos(String linea){
-        String[] lineaActual = linea.split(":");
-        return  Integer.parseInt(lineaActual[1]);
-    }
-    
-    public int cantidadReOrganizacion(String linea){
-        String[] lineaActual = linea.split(":");
-        return  Integer.parseInt(lineaActual[1]);
-    }
-    
-    
-    public boolean VerificarSiEsPrimerUsuario(){
-        String rutaDescriptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
-        
-        File archivoDescriptorBitacora = new File(rutaDescriptorBitacora);
-        return archivoDescriptorBitacora.length() == 0;
-        
-    }
-    
     /**
      * @param args the command line arguments
      */
@@ -1275,20 +775,20 @@ public class registroForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(registroForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(registroForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(registroForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(registroForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+               
             }
         });
     }

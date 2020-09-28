@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.File;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -22,10 +23,11 @@ public class dashboard extends javax.swing.JFrame {
      */
     
     Usuario usuarioActual = new Usuario();
-    
-    public dashboard(Usuario user) {
+    File ubicacion;
+    public dashboard(Usuario user, String location) {
         initComponents();
         usuarioActual = user;
+        ubicacion = new File(location);
           dashboard.this.setBackground(new Color(0,0,0,0));
         
        ImageIcon cerrar = new ImageIcon("src/Imagenes/cancelar.png");
@@ -44,7 +46,10 @@ public class dashboard extends javax.swing.JFrame {
        
        labelCerrarSesion.setIcon(imagenCerrarSesion);
 
+       ImageIcon editarPerfil = new ImageIcon("src/Imagenes/edit.png");
+       Icon imagenEditarPerfil = new ImageIcon(editarPerfil.getImage().getScaledInstance(labelEditar.getWidth(), labelEditar.getHeight(), Image.SCALE_FAST));
        
+       labelEditar.setIcon(imagenEditarPerfil);
        
        labelWelcome.setText("Bienvenido " + usuarioActual.nombreUsuario);
        labelUsuario.setText(usuarioActual.nombreUsuario);
@@ -56,10 +61,11 @@ public class dashboard extends javax.swing.JFrame {
        String rol = "";
        
         if (usuarioActual.rol == 0) {
-            rol = "Administrador";
+            rol = "Usuario";
+            
         }
         else {
-            rol = "Usuario";
+            rol = "Administrador";
         }
        
         labelRol.setText(rol);
@@ -84,8 +90,10 @@ public class dashboard extends javax.swing.JFrame {
         labelCerrar1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        PanelUsuario = new javax.swing.JPanel();
         labelWelcome = new javax.swing.JLabel();
+        labelEditar = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -102,6 +110,7 @@ public class dashboard extends javax.swing.JFrame {
 
         labelUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        labelUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         labelNombre.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         labelNombre.setForeground(new java.awt.Color(255, 255, 255));
@@ -129,27 +138,21 @@ public class dashboard extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelRol, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
             .addComponent(labelApellido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(labelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelImagenPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(labelUsuario)
-                        .addGap(0, 66, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(labelImagenPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(labelCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelUsuario)
-                .addGap(9, 9, 9)
+                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelImagenPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelNombre)
@@ -157,7 +160,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addComponent(labelApellido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelRol)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addComponent(labelCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
@@ -194,31 +197,51 @@ public class dashboard extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 620, 30));
 
-        jPanel3.setBackground(new java.awt.Color(248, 246, 246));
+        PanelUsuario.setBackground(new java.awt.Color(248, 246, 246));
 
         labelWelcome.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         labelWelcome.setForeground(new java.awt.Color(0, 102, 255));
         labelWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelWelcome.setText("labelWelcome");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        labelEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelEditarMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Editar Perfil");
+
+        javax.swing.GroupLayout PanelUsuarioLayout = new javax.swing.GroupLayout(PanelUsuario);
+        PanelUsuario.setLayout(PanelUsuarioLayout);
+        PanelUsuarioLayout.setHorizontalGroup(
+            PanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelUsuarioLayout.createSequentialGroup()
                 .addComponent(labelWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 3, Short.MAX_VALUE))
+            .addGroup(PanelUsuarioLayout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addGroup(PanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(132, 132, 132)
+        PanelUsuarioLayout.setVerticalGroup(
+            PanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelUsuarioLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(labelWelcome)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addGap(89, 89, 89)
+                .addComponent(labelEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 620, 340));
+        getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 620, 340));
 
         pack();
         setLocationRelativeTo(null);
@@ -246,6 +269,12 @@ public class dashboard extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_labelCerrarSesionMouseClicked
+
+    private void labelEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelEditarMouseClicked
+        EditarPerfil formularioEditar = new EditarPerfil(usuarioActual,ubicacion);
+        formularioEditar.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_labelEditarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -283,12 +312,14 @@ public class dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelUsuario;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelCerrar1;
     private javax.swing.JLabel labelCerrarSesion;
+    private javax.swing.JLabel labelEditar;
     private javax.swing.JLabel labelImagenPerfil;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelRol;

@@ -404,15 +404,17 @@ public class LoginForm extends javax.swing.JFrame {
     public void BuscarUsuario(String nombreUsuario, String password){
         BuscarBitacora();
         BuscarArchivoUsuario();
+        String rutaBitacora = "C:\\MEIA\\bitacora_usuario.txt";
+        String rutaMaestro = "C:\\MEIA\\usuario.txt";
         Usuario user = new Usuario();
-        if (BuscarEnBitacora(nombreUsuario) != null) {
-            user = BuscarEnBitacora(nombreUsuario);
-            verifcarPassword(user, password);
+        if ((user = BuscarEnBitacora(nombreUsuario)) != null) {
+
+            verifcarPassword(user, password, rutaBitacora);
         }
         else {
-            if (BuscarEnArchivoUsuario(nombreUsuario) != null) {
-                user = BuscarEnArchivoUsuario(nombreUsuario);
-                verifcarPassword(user, password);
+            if ((user = BuscarEnArchivoUsuario(nombreUsuario)) != null) {
+                
+                verifcarPassword(user, password, rutaMaestro);
             }
             else {
 
@@ -424,13 +426,14 @@ public class LoginForm extends javax.swing.JFrame {
         
     }
     
-    public void verifcarPassword(Usuario user, String password){
+    public void verifcarPassword(Usuario user, String password, String archivoLocation){
         if (user.password.equals(password)) {
-            dashboard formularioDashboard = new dashboard(user);
+            dashboard formularioDashboard = new dashboard(user, archivoLocation);
             formularioDashboard.setVisible(true);
             dispose();
         }
         else {
+            
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
         }
     }
@@ -518,7 +521,7 @@ public class LoginForm extends javax.swing.JFrame {
                     {
                         if(!"".equals(Linea))
                         {
-                            split=Linea.split("\\|");
+                            split=Linea.replace("=", "").split("\\|");
                             if (Linea.contains(nombreUsuario)) {
                                 user.nombreUsuario = split[0];
                                 user.nombre = split[1];
@@ -579,7 +582,7 @@ public class LoginForm extends javax.swing.JFrame {
                     {
                         if(!"".equals(Linea))
                         {
-                            split=Linea.split("\\|");
+                            split=Linea.replace("=", "").split("\\|");
                             if (Linea.contains(nombreUsuario)) {
                                 user.nombreUsuario = split[0];
                                 user.nombre = split[1];

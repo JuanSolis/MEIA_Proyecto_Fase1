@@ -36,6 +36,7 @@ public class Usuario<T> {
                 for (int i = 0; i < caracteresFaltantes; i++) {
                     cadena = cadena + "=";
                 }
+          
             }
        
         }
