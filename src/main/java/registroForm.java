@@ -825,7 +825,10 @@ public class registroForm extends javax.swing.JFrame {
         BufferedWriter bw = new BufferedWriter(escribirEnMaestro);
         int registros = 0;
         while ((lineaBitacora = bfArchivo.readLine()) != null) {
+            if (lineaBitacora.split("\\|")[9].equals("1")) {
                 bw.write(lineaBitacora+ System.getProperty("line.separator"));
+            }
+                
                 
         }
         //Cerrar los buffers

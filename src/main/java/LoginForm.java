@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
-
 public class LoginForm extends javax.swing.JFrame {
 
 
@@ -406,15 +405,17 @@ public class LoginForm extends javax.swing.JFrame {
         BuscarArchivoUsuario();
         String rutaBitacora = "C:\\MEIA\\bitacora_usuario.txt";
         String rutaMaestro = "C:\\MEIA\\usuario.txt";
+        String rutaDesciptorBitacora = "C:\\MEIA\\desc_bitacora_usuario.txt";
+        String rutaDescriptorMaestro = "C:\\MEIA\\desc_usuario.txt";
         Usuario user = new Usuario();
         if ((user = BuscarEnBitacora(nombreUsuario)) != null) {
 
-            verifcarPassword(user, password, rutaBitacora);
+            verifcarPassword(user, password, rutaBitacora, rutaDesciptorBitacora);
         }
         else {
             if ((user = BuscarEnArchivoUsuario(nombreUsuario)) != null) {
                 
-                verifcarPassword(user, password, rutaMaestro);
+                verifcarPassword(user, password, rutaMaestro, rutaDescriptorMaestro);
             }
             else {
 
@@ -426,9 +427,9 @@ public class LoginForm extends javax.swing.JFrame {
         
     }
     
-    public void verifcarPassword(Usuario user, String password, String archivoLocation){
+    public void verifcarPassword(Usuario user, String password, String archivoLocation, String DescriptorLocation){
         if (user.password.equals(password)) {
-            dashboard formularioDashboard = new dashboard(user, archivoLocation);
+            dashboard formularioDashboard = new dashboard(user, archivoLocation, DescriptorLocation);
             formularioDashboard.setVisible(true);
             dispose();
         }

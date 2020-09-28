@@ -1,9 +1,33 @@
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /*
@@ -24,10 +48,12 @@ public class dashboard extends javax.swing.JFrame {
     
     Usuario usuarioActual = new Usuario();
     File ubicacion;
-    public dashboard(Usuario user, String location) {
+    File descriptor;
+    public dashboard(Usuario user, String location, String locationDescriptor) {
         initComponents();
         usuarioActual = user;
         ubicacion = new File(location);
+        descriptor = new File(locationDescriptor);
           dashboard.this.setBackground(new Color(0,0,0,0));
         
        ImageIcon cerrar = new ImageIcon("src/Imagenes/cancelar.png");
@@ -51,6 +77,16 @@ public class dashboard extends javax.swing.JFrame {
        
        labelEditar.setIcon(imagenEditarPerfil);
        
+       ImageIcon  bajarPerfil = new ImageIcon("src/Imagenes/delete.png");
+       Icon imagenBajarPerfil = new ImageIcon(bajarPerfil.getImage().getScaledInstance(labelBaja.getWidth(), labelBaja.getHeight(), Image.SCALE_FAST));
+       
+       labelBaja.setIcon(imagenBajarPerfil);
+       
+       ImageIcon  imagenBackUp = new ImageIcon("src/Imagenes/backup.png");
+       Icon iconoBackUp = new ImageIcon(imagenBackUp.getImage().getScaledInstance(labelBaja.getWidth(), labelBaja.getHeight(), Image.SCALE_FAST));
+       
+       labelBaja1.setIcon(iconoBackUp);
+       
        labelWelcome.setText("Bienvenido " + usuarioActual.nombreUsuario);
        labelUsuario.setText(usuarioActual.nombreUsuario);
        labelNombre.setText(usuarioActual.nombre);
@@ -62,10 +98,15 @@ public class dashboard extends javax.swing.JFrame {
        
         if (usuarioActual.rol == 0) {
             rol = "Usuario";
-            
+            labelBaja.setVisible(true);
+            jLabel2.setText("Dar de Baja");
+            labelBaja1.setVisible(false);
         }
         else {
             rol = "Administrador";
+            labelBaja1.setVisible(true);
+            jLabel2.setText("Crear BackUp");
+            labelBaja.setVisible(false);
         }
        
         labelRol.setText(rol);
@@ -94,6 +135,9 @@ public class dashboard extends javax.swing.JFrame {
         labelWelcome = new javax.swing.JLabel();
         labelEditar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        labelBaja = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        labelBaja1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -198,11 +242,13 @@ public class dashboard extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 620, 30));
 
         PanelUsuario.setBackground(new java.awt.Color(248, 246, 246));
+        PanelUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelWelcome.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         labelWelcome.setForeground(new java.awt.Color(0, 102, 255));
         labelWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelWelcome.setText("labelWelcome");
+        PanelUsuario.add(labelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 617, -1));
 
         labelEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         labelEditar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -210,36 +256,33 @@ public class dashboard extends javax.swing.JFrame {
                 labelEditarMouseClicked(evt);
             }
         });
+        PanelUsuario.add(labelEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 125, 116, 98));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Editar Perfil");
+        PanelUsuario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 234, 116, -1));
 
-        javax.swing.GroupLayout PanelUsuarioLayout = new javax.swing.GroupLayout(PanelUsuario);
-        PanelUsuario.setLayout(PanelUsuarioLayout);
-        PanelUsuarioLayout.setHorizontalGroup(
-            PanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelUsuarioLayout.createSequentialGroup()
-                .addComponent(labelWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
-            .addGroup(PanelUsuarioLayout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addGroup(PanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        PanelUsuarioLayout.setVerticalGroup(
-            PanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelUsuarioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelWelcome)
-                .addGap(89, 89, 89)
-                .addComponent(labelEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(86, Short.MAX_VALUE))
-        );
+        labelBaja.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelBaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelBajaMouseClicked(evt);
+            }
+        });
+        PanelUsuario.add(labelBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 116, 98));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Dar de Baja");
+        PanelUsuario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 234, 116, -1));
+
+        labelBaja1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelBaja1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelBaja1MouseClicked(evt);
+            }
+        });
+        PanelUsuario.add(labelBaja1, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 125, 116, 98));
 
         getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 620, 340));
 
@@ -271,11 +314,318 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_labelCerrarSesionMouseClicked
 
     private void labelEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelEditarMouseClicked
-        EditarPerfil formularioEditar = new EditarPerfil(usuarioActual,ubicacion);
+        EditarPerfil formularioEditar = new EditarPerfil(usuarioActual,ubicacion, descriptor);
         formularioEditar.setVisible(true);
         dispose();
     }//GEN-LAST:event_labelEditarMouseClicked
 
+    private void labelBajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelBajaMouseClicked
+        int iRespuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro que deseas dar de baja tu cuenta? ", "¿Dar de Baja?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (iRespuesta == 0)
+        {
+            try{
+                FileReader reader = new FileReader(ubicacion);
+                BufferedReader bf = new BufferedReader(reader);
+                String linea = "";
+                int lineaPosicion = 0;
+
+                RandomAccessFile escritor = new RandomAccessFile(ubicacion.getPath(), "rw");
+                System.out.println("Dando de Baja");
+                usuarioActual.estatus = 0;
+                while ((linea = bf.readLine()) != null) {
+
+                    if (linea.contains(usuarioActual.nombreUsuario)) {
+                        escritor.seek((lineaPosicion * 400));
+
+                        escritor.writeBytes(usuarioActual.DelimitarCaracteres());
+
+                    }
+                    lineaPosicion++;
+                }
+
+                escritor.close();
+                bf.close();
+                reader.close();
+
+                System.out.println("Dato de baja");
+                FileReader readerDescriptor = new FileReader(descriptor);
+                BufferedReader bfDescriptor = new BufferedReader(readerDescriptor);
+
+                linea = "";
+                String lineaModificada = "";
+                List lista = new ArrayList();
+                int lineaPosicionDecriptor = 0;
+                int inactivos = 0;
+                int activos = 0;
+
+                SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+                Date date = new Date(System.currentTimeMillis());
+                while ((linea = bfDescriptor.readLine()) != null) {
+                    lista.add(linea);
+
+                    if (linea.contains("fecha_modificacion:")) {
+                        lineaModificada = "fecha_modificacion:" + formatter.format(date);
+                        lista.set(lineaPosicionDecriptor, lineaModificada);
+
+                    }
+
+                    if (linea.contains("usuario_modificacion:")) {
+                        lineaModificada = "usuario_modificacion:" + usuarioActual.nombreUsuario;
+                        lista.set(lineaPosicionDecriptor, lineaModificada);
+
+                    }
+                    if (linea.contains("registros_activos:")) {
+                        activos = Integer.parseInt(linea.split(":")[1]);
+
+                        lineaModificada = "registros_activos:" + (activos-1) ;
+                        lista.set(lineaPosicionDecriptor, lineaModificada);
+
+                    }
+                    if (linea.contains("registros_inactivos:")) {
+                        inactivos = Integer.parseInt(linea.split(":")[1]);
+
+                        lineaModificada = "registros_inactivos:" + (inactivos+1) ;
+                        lista.set(lineaPosicionDecriptor, lineaModificada);
+
+                    }
+                    lineaPosicionDecriptor++;
+                }
+
+                bfDescriptor.close();
+                readerDescriptor.close();
+
+                Iterator iter = lista.iterator();
+
+                String rutaDecriptor = descriptor.getPath();
+                descriptor.delete();
+
+                if (!descriptor.exists()) {
+
+                    File nuevoArchivoDecriptor = new File(rutaDecriptor);
+                    nuevoArchivoDecriptor.createNewFile();
+
+                    System.out.println("Eliminado");
+                    FileWriter escribirEnDescriptor = new FileWriter(nuevoArchivoDecriptor,true);
+
+                    while(iter.hasNext()) {
+                        escribirEnDescriptor.write((iter.next().toString() + System.getProperty("line.separator")));
+                    }
+                    JOptionPane.showMessageDialog(null,"perfil Dado de Baja");
+
+                    escribirEnDescriptor.close();
+                    LoginForm formularioMain = new LoginForm();
+                    formularioMain.setVisible(true);
+                    dispose();
+                }
+
+            }
+            catch(Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_labelBajaMouseClicked
+
+    private void labelBaja1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelBaja1MouseClicked
+        String bitacoraBackup = "C:\\MEIA\\bitacora_backup.txt";
+        String descriptorBitacoraBackup = "C:\\MEIA\\desc_bitacora_backup.txt";
+        File arBitacora = new File(bitacoraBackup);
+        File arDescriptor = new File(descriptorBitacoraBackup);
+        try{
+            
+            arBitacora.createNewFile();
+            
+            arDescriptor.createNewFile();
+   
+       
+        
+       
+        
+            JFileChooser fileChooser = new JFileChooser();
+
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fileChooser.showOpenDialog(this);
+            File archivo = fileChooser.getSelectedFile();
+
+            String rutaDestino = archivo.getPath()+ "\\MEIA_Backup";
+
+            SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            if (archivo != null) {
+
+               copiarDirectorio("C:\\MEIA", rutaDestino);
+               BackUp bkp = new BackUp();
+               bkp.usuario = usuarioActual.nombreUsuario;
+               bkp.ruta_absoluta = rutaDestino;
+               bkp.fecha_transaccion = formatter.format(date);
+               try{
+                insertarBackUp(bkp,arBitacora,arDescriptor);
+                JOptionPane.showMessageDialog(null, "BackUp Creado");
+               }  
+               catch(Exception ex) {
+                   System.out.println("Error");
+               }
+
+
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Por favor seleccione un directorio"); 
+            }
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+                
+    }//GEN-LAST:event_labelBaja1MouseClicked
+    
+    private void insertarBackUp(BackUp Bku, File arBitacora, File arDescriptor ) throws IOException{
+        //No es primera vez
+         SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(formatter.format(date));
+        String linea = "";
+        int cantidadLineas = 0;
+        FileReader lectorBitacoraBackUp = new FileReader(arBitacora);
+        BufferedReader bfBitacoraBackUp = new BufferedReader(lectorBitacoraBackUp);
+        FileWriter escritorBitacoraBackUp = new FileWriter(arBitacora, true);
+        BufferedWriter bgEsBitacora = new BufferedWriter(escritorBitacoraBackUp);
+        bgEsBitacora.write(Bku.DelimitarCaracteres() + System.getProperty("line.separator"));
+        
+         while ((bfBitacoraBackUp.readLine())!=null) {
+                        cantidadLineas++; 
+         }
+        
+        bgEsBitacora.close();
+        escritorBitacoraBackUp.close();
+        bfBitacoraBackUp.close();
+        lectorBitacoraBackUp.close();
+        
+            FileReader lectorDescriptor = new FileReader(arDescriptor);
+            BufferedReader bfDescriptor = new BufferedReader(lectorDescriptor);
+            
+            List lista =    new ArrayList();
+            if (arDescriptor.length() > 0 ) {
+                int lineaActual = 0;
+              
+                linea = "";
+                String lineaModificada = "";
+                while (( linea = bfDescriptor.readLine())!= null) {
+                    
+                    lista.add(linea);
+
+                    if (linea.contains("fecha_modificacion:")) { 
+
+                        lineaModificada = ("fecha_modificacion:" + formatter.format(date).toString());
+                        lista.set(lineaActual, lineaModificada); 
+
+                    }
+                    if (linea.contains("usuario_modificacion:")) {
+                        lineaModificada = ("usuario_modificacion:" + usuarioActual.nombreUsuario);
+                        lista.set(lineaActual, lineaModificada); 
+
+                    }
+
+                    if (linea.contains("#_registros:")) {
+                        lineaModificada = ("#_registros:" + String.valueOf(cantidadLineas));
+                        lista.set(lineaActual, lineaModificada); 
+
+                    }
+                    
+                    lineaActual++;
+                }
+                       
+                        
+                bfDescriptor.close();
+                lectorDescriptor.close();
+
+
+                Iterator iter = lista.iterator();
+
+                String rutaDescriptor = arDescriptor.getPath();
+                arDescriptor.delete();
+
+                if (!arDescriptor.exists()) {
+
+                    File nuevoArchivoDecriptor = new File(rutaDescriptor);
+                    nuevoArchivoDecriptor.createNewFile();
+
+
+                      FileWriter escribirEnDescriptor = new FileWriter(nuevoArchivoDecriptor,true);
+
+
+                    while(iter.hasNext()) {
+                        escribirEnDescriptor.write((iter.next().toString() + System.getProperty("line.separator")));
+                    }
+                    escribirEnDescriptor.close();
+                }
+           
+        }else{  
+                FileWriter EscribirEnDescriptor = new FileWriter(arDescriptor,true);
+                PrintWriter  bwD = new PrintWriter (EscribirEnDescriptor);
+                bwD.write("nombre_simbolico:bitacora_backup" + System.getProperty( "line.separator" ));
+                bwD.write("fecha_creacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
+                bwD.write("usuario_creacion:" + usuarioActual.nombreUsuario + System.getProperty( "line.separator" ));
+                bwD.write("fecha_modificacion:" + formatter.format(date) + System.getProperty( "line.separator" ));
+                bwD.write("usuario_modificacion:" + usuarioActual.nombreUsuario + System.getProperty( "line.separator" ));
+                bwD.write("#_registros:1"  + System.getProperty( "line.separator" ));
+                bwD.close();
+                EscribirEnDescriptor.close();
+        }
+        
+        
+    }
+    private void copiarDirectorio(String origen, String destino) {
+        comprobarCrearDirectorio(destino);
+        File directorio = new File(origen);
+        File f;
+        if (directorio.isDirectory()) {
+            comprobarCrearDirectorio(destino);
+            String [] files = directorio.list();
+                if (files.length > 0) {
+                    for (String archivo : files) {
+                        f = new File (origen + File.separator + archivo);
+                        if(f.isDirectory()) {
+                            comprobarCrearDirectorio(destino+File.separator+archivo+File.separator);
+                            copiarDirectorio(origen+File.separator+archivo+File.separator, destino+File.separator+archivo+File.separator);
+                        } else { //Es un archivo
+                            copiarArchivo(origen+File.separator+archivo, destino+File.separator+archivo);
+                        }
+                    }
+                }
+            }
+        }
+    
+    private void copiarArchivo(String sOrigen, String sDestino) {
+        try {
+            File origen = new File(sOrigen);
+            File destino = new File(sDestino);
+            InputStream in = new FileInputStream(origen);
+            OutputStream out = new FileOutputStream(destino);
+
+            byte[] buf = new byte[1024];
+            int len;
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+
+            in.close();
+            out.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void comprobarCrearDirectorio(String ruta) {
+    File directorio = new File(ruta);
+    if (!directorio.exists()) {
+        directorio.mkdirs();
+    }
+}
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -314,9 +664,12 @@ public class dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelUsuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelApellido;
+    private javax.swing.JLabel labelBaja;
+    private javax.swing.JLabel labelBaja1;
     private javax.swing.JLabel labelCerrar1;
     private javax.swing.JLabel labelCerrarSesion;
     private javax.swing.JLabel labelEditar;
