@@ -1189,6 +1189,7 @@ public class registroForm extends javax.swing.JFrame {
         int lNumeroLineas = 0;
         
         try{
+            
             FileReader readerBitacora = new FileReader(Bitacora);
             BufferedReader bfArchivoBitacora = new BufferedReader(readerBitacora);
             SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
@@ -1200,8 +1201,10 @@ public class registroForm extends javax.swing.JFrame {
                     bw.write(user.DelimitarCaracteres()+ System.getProperty( "line.separator" ));
                     bw.close();
                     Escribir.close();
+                    
                     System.out.println("Registro escrito en Bitacora");
                     while ((bfArchivoBitacora.readLine())!=null) {
+                        
                         lNumeroLineas++;
                       }
                     try {

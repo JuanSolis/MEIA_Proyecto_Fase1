@@ -49,7 +49,7 @@ public class dashboard extends javax.swing.JFrame {
     Usuario usuarioActual = new Usuario();
     File ubicacion;
     File descriptor;
-    public dashboard(Usuario user, String location, String locationDescriptor) {
+    public dashboard(Usuario user, String location, String locationDescriptor) throws IOException {
         initComponents();
         usuarioActual = user;
         ubicacion = new File(location);
@@ -87,6 +87,12 @@ public class dashboard extends javax.swing.JFrame {
        
        labelBaja1.setIcon(iconoBackUp);
        
+       
+       ImageIcon  imagenBuscar = new ImageIcon("src/Imagenes/Search.jpg");
+       Icon iconoBuscar = new ImageIcon(imagenBuscar.getImage().getScaledInstance(labelBuscar.getWidth(), labelBuscar.getHeight(), Image.SCALE_FAST));
+       
+       labelBuscar.setIcon(iconoBuscar);
+       
        labelWelcome.setText("Bienvenido " + usuarioActual.nombreUsuario);
        labelUsuario.setText(usuarioActual.nombreUsuario);
        labelNombre.setText(usuarioActual.nombre);
@@ -110,6 +116,10 @@ public class dashboard extends javax.swing.JFrame {
         }
        
         labelRol.setText(rol);
+        
+        
+     
+
     }
 
     /**
@@ -121,6 +131,7 @@ public class dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        labelCerrar1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         labelImagenPerfil = new javax.swing.JLabel();
         labelUsuario = new javax.swing.JLabel();
@@ -128,7 +139,6 @@ public class dashboard extends javax.swing.JFrame {
         labelApellido = new javax.swing.JLabel();
         labelRol = new javax.swing.JLabel();
         labelCerrarSesion = new javax.swing.JLabel();
-        labelCerrar1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         labelTitulo = new javax.swing.JLabel();
         PanelUsuario = new javax.swing.JPanel();
@@ -138,10 +148,25 @@ public class dashboard extends javax.swing.JFrame {
         labelBaja = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         labelBaja1 = new javax.swing.JLabel();
+        labelBuscar = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        labelCerrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelCerrar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelCerrar1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(labelCerrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 10, 32, 30));
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 102));
 
@@ -211,14 +236,6 @@ public class dashboard extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 110, 370));
 
-        labelCerrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        labelCerrar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                labelCerrar1MouseClicked(evt);
-            }
-        });
-        getContentPane().add(labelCerrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 32, 30));
-
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -230,16 +247,14 @@ public class dashboard extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 620, 30));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 740, 30));
 
         PanelUsuario.setBackground(new java.awt.Color(248, 246, 246));
         PanelUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -248,7 +263,7 @@ public class dashboard extends javax.swing.JFrame {
         labelWelcome.setForeground(new java.awt.Color(0, 102, 255));
         labelWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelWelcome.setText("labelWelcome");
-        PanelUsuario.add(labelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 617, -1));
+        PanelUsuario.add(labelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 740, -1));
 
         labelEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         labelEditar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -284,7 +299,20 @@ public class dashboard extends javax.swing.JFrame {
         });
         PanelUsuario.add(labelBaja1, new org.netbeans.lib.awtextra.AbsoluteConstraints(355, 125, 116, 98));
 
-        getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 620, 340));
+        labelBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelBuscarMouseClicked(evt);
+            }
+        });
+        PanelUsuario.add(labelBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 130, 116, 98));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Buscar");
+        PanelUsuario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 240, 116, -1));
+
+        getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 740, 340));
 
         pack();
         setLocationRelativeTo(null);
@@ -293,7 +321,7 @@ public class dashboard extends javax.swing.JFrame {
     private void labelImagenPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelImagenPerfilMouseClicked
        
     }//GEN-LAST:event_labelImagenPerfilMouseClicked
-
+    
     private void labelCerrar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelCerrar1MouseClicked
         int iRespuesta = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea salir? ", "¿Salir?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (iRespuesta == 0)
@@ -425,6 +453,65 @@ public class dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_labelBajaMouseClicked
 
+    public void revisarNotificacion() throws IOException{
+        String rutaListaAmigos = "C:\\MEIA\\lista_amigos.txt";
+        File Archivo = new File(rutaListaAmigos);
+        
+        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+            
+            if(Archivo.exists()==true)
+            {
+                if (Archivo.length() > 0) {
+                    SolicitudAmistad solicitud = new SolicitudAmistad();
+                    FileReader LecturaArchivo;
+              
+                        LecturaArchivo = new FileReader(Archivo);
+                        BufferedReader LeerArchivo = new BufferedReader(LecturaArchivo);
+                        String Linea="";
+                    
+                            Linea=LeerArchivo.readLine();
+                            String[] split;
+                            int lineaPosicion = 1;
+                            while(Linea != null)
+                            {
+                                if(!"".equals(Linea))
+                                {
+                                    split=Linea.split("\\|");        
+
+                                    if (split[5].trim().equals("0") && split[2].trim().equals("0")) {
+                                        if (split[1].trim().equals(usuarioActual.nombreUsuario)) {
+                                            int iRespuesta = JOptionPane.showConfirmDialog(null, "Deseas Aceptar la invitacion de " + split[0] , "¿Aceptar?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                            RandomAccessFile raf = new RandomAccessFile(rutaListaAmigos, "rw");
+                                               
+                                            if (iRespuesta == 0) 
+                                            {            
+                                                raf.seek(42* lineaPosicion);
+                                                raf.writeBytes("1");
+                                                
+                                                raf.seek(65 * lineaPosicion);
+                                                raf.writeBytes(formatter.format(date).toString());
+                                                raf.seek(86 * lineaPosicion);
+                                                raf.writeBytes("1");
+                                                raf.close(); 
+                                            }   
+                                            
+                                            raf.close(); 
+                                        }
+                                        
+                                    }
+                                }
+                                lineaPosicion++;
+                                Linea=LeerArchivo.readLine();
+                                
+                            }
+
+                            LecturaArchivo.close();
+                            LeerArchivo.close();
+                }
+            }
+    }
+    
     private void labelBaja1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelBaja1MouseClicked
         String bitacoraBackup = "C:\\MEIA\\bitacora_backup.txt";
         String descriptorBitacoraBackup = "C:\\MEIA\\desc_bitacora_backup.txt";
@@ -476,6 +563,21 @@ public class dashboard extends javax.swing.JFrame {
         }
                 
     }//GEN-LAST:event_labelBaja1MouseClicked
+
+    private void labelBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelBuscarMouseClicked
+        
+        BuscarUsuario formBuscarUsuario = new BuscarUsuario(usuarioActual);
+        formBuscarUsuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_labelBuscarMouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        try{
+            revisarNotificacion();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_formComponentShown
     
     private void insertarBackUp(BackUp Bku, File arBitacora, File arDescriptor ) throws IOException{
         //No es primera vez
@@ -656,7 +758,7 @@ public class dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            
+                JOptionPane.showMessageDialog(null, "Hola");
             }
         });
     }
@@ -665,11 +767,13 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel PanelUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelBaja;
     private javax.swing.JLabel labelBaja1;
+    private javax.swing.JLabel labelBuscar;
     private javax.swing.JLabel labelCerrar1;
     private javax.swing.JLabel labelCerrarSesion;
     private javax.swing.JLabel labelEditar;

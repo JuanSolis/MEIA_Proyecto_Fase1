@@ -275,7 +275,11 @@ public class LoginForm extends javax.swing.JFrame {
        
         if (!txtUsuario.getText().equals("") && !txtPassword.getPassword().equals("")) {
              BuscarDirectorio();
-             BuscarUsuario(txtUsuario.getText(), txtPassword.getText());
+            try {
+                BuscarUsuario(txtUsuario.getText(), txtPassword.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
        
         
@@ -424,7 +428,7 @@ public class LoginForm extends javax.swing.JFrame {
         System.out.println("Directorio MEIA Creado en ROOT");
     }
     
-    public void BuscarUsuario(String nombreUsuario, String password){
+    public void BuscarUsuario(String nombreUsuario, String password) throws IOException{
         BuscarBitacora();
         BuscarArchivoUsuario();
         String rutaBitacora = "C:\\MEIA\\bitacora_usuario.txt";
@@ -451,7 +455,7 @@ public class LoginForm extends javax.swing.JFrame {
         
     }
     
-    public void verifcarPassword(Usuario user, String password, String archivoLocation, String DescriptorLocation){
+    public void verifcarPassword(Usuario user, String password, String archivoLocation, String DescriptorLocation) throws IOException{
         if (user.password.equals(password)) {
             dashboard formularioDashboard = new dashboard(user, archivoLocation, DescriptorLocation);
             formularioDashboard.setVisible(true);
@@ -566,15 +570,19 @@ public class LoginForm extends javax.swing.JFrame {
                                     System.out.println("El usuario " + user.nombreUsuario + "se dio de baja en Bitacora");
                                     user =  null;
                                 }
+                            }else{
+                                user =  null;
+                                
                             }
-                            else{
-                                System.out.println("No Se encontro el usuario " + user.nombreUsuario + "en Bitacora");
-                            }
+                            
                         }
                         
                         Linea=LeerArchivo.readLine();
                     }
-
+                    
+                    if (user == null) {
+                        System.out.println("No Se encontro el usuario " + nombreUsuario + " en Bitacora");
+                    }
                     LecturaArchivo.close();
                     LeerArchivo.close();
                     return user;
@@ -629,13 +637,17 @@ public class LoginForm extends javax.swing.JFrame {
                                 }
                             }
                             else{
-                                System.out.println("No Se encontro el usuario " + user.nombreUsuario + "en Archivo Usuario");
+                                 user = null;
+                                
                             }
                         }
                         
                         Linea=LeerArchivo.readLine();
                     }
-
+                    
+                    if (user == null) {
+                        System.out.println("No Se encontro el usuario " + nombreUsuario + " en Archivo Usuario");
+                    }
                     LecturaArchivo.close();
                     LeerArchivo.close();
                     return user;
