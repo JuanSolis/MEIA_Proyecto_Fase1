@@ -95,10 +95,15 @@ public class dashboard extends javax.swing.JFrame {
        
        labelBuscar.setIcon(iconoBuscar);
        
-       ImageIcon crearGrupoimg = new ImageIcon("src/Imagenes/cancelar.png");
+       ImageIcon crearGrupoimg = new ImageIcon("src/Imagenes/grupo-de-usuario.png");
        Icon iconoCrearGrupo = new ImageIcon(crearGrupoimg.getImage().getScaledInstance(labelCrearGrupo.getWidth(), labelCrearGrupo.getHeight(), Image.SCALE_FAST));
        
        labelCrearGrupo.setIcon(iconoCrearGrupo);
+       
+       ImageIcon agregarAGrupoImg = new ImageIcon("src/Imagenes/equipo.png");
+       Icon iconoAgregarAGrupo = new ImageIcon(agregarAGrupoImg.getImage().getScaledInstance(labelAgregarAmigoGrupo.getWidth(), labelAgregarAmigoGrupo.getHeight(), Image.SCALE_FAST));
+       
+       labelAgregarAmigoGrupo.setIcon(iconoAgregarAGrupo);
        
        
        labelWelcome.setText("Bienvenido " + usuarioActual.nombreUsuario);
