@@ -551,7 +551,7 @@ public class LoginForm extends javax.swing.JFrame {
                         if(!"".equals(Linea))
                         {
                             split=Linea.replace("=", "").split("\\|");
-                            if (Linea.contains(nombreUsuario)) {
+                            if (split[0].equals(nombreUsuario)) {
                                 user.nombreUsuario = split[0];
                                 user.nombre = split[1];
                                 user.apellido = split[2];
@@ -564,24 +564,22 @@ public class LoginForm extends javax.swing.JFrame {
                                 user.estatus = Integer.parseInt(split[9]);
                                 if (user.estatus == 1) {
                                     System.out.println("Se encontro el usuario " + user.nombreUsuario + "en Bitacora");
-                                    
+                        
                                 }
                                 else {
                                     System.out.println("El usuario " + user.nombreUsuario + "se dio de baja en Bitacora");
-                                    user =  null;
+                               
                                 }
-                            }else{
-                                user =  null;
-                                
                             }
                             
                         }
                         
                         Linea=LeerArchivo.readLine();
                     }
-                    
-                    if (user == null) {
+                   
+                    if (user.nombreUsuario.equals("")) {
                         System.out.println("No Se encontro el usuario " + nombreUsuario + " en Bitacora");
+                        user = null;
                     }
                     LecturaArchivo.close();
                     LeerArchivo.close();
@@ -616,7 +614,7 @@ public class LoginForm extends javax.swing.JFrame {
                         if(!"".equals(Linea))
                         {
                             split=Linea.replace("=", "").split("\\|");
-                            if (Linea.contains(nombreUsuario)) {
+                            if (split[0].equals(nombreUsuario)) {
                                 user.nombreUsuario = split[0];
                                 user.nombre = split[1];
                                 user.apellido = split[2];
@@ -629,24 +627,22 @@ public class LoginForm extends javax.swing.JFrame {
                                 user.estatus = Integer.parseInt(split[9]);
                                 if (user.estatus == 1) {
                                     System.out.println("Se encontro el usuario " + user.nombreUsuario + "en Archivo Usuario");
-                                    break;
+                              
                                 }
                                 else {
                                     System.out.println("El usuario " + user.nombreUsuario + "se dio de baja en Archivo Usuario");
-                                    user = null;
+                                    
                                 }
                             }
-                            else{
-                                 user = null;
-                                
-                            }
+                            
                         }
                         
                         Linea=LeerArchivo.readLine();
                     }
                     
-                    if (user == null) {
+                    if (user.nombreUsuario.equals("")) {
                         System.out.println("No Se encontro el usuario " + nombreUsuario + " en Archivo Usuario");
+                        user = null;
                     }
                     LecturaArchivo.close();
                     LeerArchivo.close();

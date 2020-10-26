@@ -38,7 +38,7 @@ public class BuscarUsuario extends javax.swing.JFrame {
 
     public BuscarUsuario(Usuario user) {
         initComponents();
-        
+        usuarioActual = user;
         BuscarUsuario.this.setBackground(new Color(0,0,0,0));
         
         ImageIcon Buscar = new ImageIcon("src/Imagenes/Search.jpg");
@@ -52,6 +52,7 @@ public class BuscarUsuario extends javax.swing.JFrame {
        labelBuscar.setIcon(IconBuscar);
        
        btAgregarAmigo.setVisible(false);
+       btnEliminarAmigo.setVisible(false);
     }
 
     /**
@@ -63,6 +64,7 @@ public class BuscarUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtCerrar = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -70,13 +72,20 @@ public class BuscarUsuario extends javax.swing.JFrame {
         labelBuscar = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         labelResultado = new javax.swing.JLabel();
-        txtCerrar = new javax.swing.JLabel();
         btAgregarAmigo = new javax.swing.JButton();
         btnEliminarAmigo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txtCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCerrarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(txtCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 30, 30));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -136,16 +145,9 @@ public class BuscarUsuario extends javax.swing.JFrame {
         });
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 95, 34));
 
-        labelResultado.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        labelResultado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel1.add(labelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 520, 40));
-
-        txtCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtCerrarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(txtCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, -10, 30, 30));
 
         btAgregarAmigo.setBackground(new java.awt.Color(102, 153, 255));
         btAgregarAmigo.setText("Agregar");
@@ -203,7 +205,7 @@ public class BuscarUsuario extends javax.swing.JFrame {
         bw.write(result+ System.getProperty( "line.separator" ));
         bw.close();
         escribirEnArchivo.close();
-
+        JOptionPane.showMessageDialog(null, "Solicitud Enviada");
         System.out.println("Solicitud De Amistad escrita");
         
         
@@ -243,7 +245,7 @@ public class BuscarUsuario extends javax.swing.JFrame {
                                 {
                                     split=Linea.split("\\|");        
 
-                                    if (split[0].trim().equals(usuarioActual.nombreUsuario) && split[1].trim().equals(usuarioActual.nombreUsuario)) {
+                                    if (split[0].trim().equals(usuarioActual.nombreUsuario) && split[1].trim().equals(usuarioEncontrado.nombreUsuario)) {
                                         if (split[2].trim().equals("1")) {
                                             sonAmigos = true;
                                         }else {
@@ -306,13 +308,14 @@ public class BuscarUsuario extends javax.swing.JFrame {
                             {
                                 split=Linea.split("\\|");
                                 
-                                if (split[0].trim().equals(usuarioActual.nombreUsuario) && split[1].trim().equals(usuarioActual.nombreUsuario)) {
+                                if (split[0].trim().equals(usuarioActual.nombreUsuario) && split[1].trim().equals(usuarioEncontrado.nombreUsuario)) {
                                     if (split[2].trim().equals("1")) {
                                         
                                         RandomAccessFile raf = new RandomAccessFile(rutaListaAmigos, "rw");
-                                        raf.seek(42* lineaPosicion);
+                                        raf.seek((88 * lineaPosicion) + 42);
+                                       
                                         raf.writeBytes("0"); 
-                                        
+                                         JOptionPane.showMessageDialog(null, "Amigo Eliminado");
                                         
                                         raf.close();
                                     }
@@ -414,16 +417,13 @@ public class BuscarUsuario extends javax.swing.JFrame {
                                 user.path_fotografia = split[8];
                                 user.estatus = Integer.parseInt(split[9]);
                                 if (user.estatus == 1) {
-                                    System.out.println("Se encontro el usuario " + user.nombreUsuario + "en Bitacora");
+                                    System.out.println("Se encontro el usuario " + user.nombreUsuario);
                                     
                                 }
                                 else {
-                                    System.out.println("El usuario " + user.nombreUsuario + "se dio de baja en Bitacora");
-                                    user =  null;
+                                    System.out.println("El usuario " + user.nombreUsuario + "se dio de baja");
+
                                 }
-                            }else{
-                                user =  null;
-                                
                             }
                             
                         }
@@ -431,11 +431,15 @@ public class BuscarUsuario extends javax.swing.JFrame {
                         Linea=LeerArchivo.readLine();
                     }
                     
+                     if (user.nombreUsuario.equals("")) {
+                        System.out.println("No Se encontro el usuario " + buscarUsuario );
+                        user = null;
+                    }
                     LecturaArchivo.close();
                     LeerArchivo.close();
                     return user;
                 } catch (IOException ex) {
-                    System.out.println("Error al leer el archivo Bitacora");
+                    System.out.println("Error al leer el archivo");
                     return null;
                 }
         }

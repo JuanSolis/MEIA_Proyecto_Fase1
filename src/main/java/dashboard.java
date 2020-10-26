@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -93,6 +95,12 @@ public class dashboard extends javax.swing.JFrame {
        
        labelBuscar.setIcon(iconoBuscar);
        
+       ImageIcon crearGrupoimg = new ImageIcon("src/Imagenes/cancelar.png");
+       Icon iconoCrearGrupo = new ImageIcon(crearGrupoimg.getImage().getScaledInstance(labelCrearGrupo.getWidth(), labelCrearGrupo.getHeight(), Image.SCALE_FAST));
+       
+       labelCrearGrupo.setIcon(iconoCrearGrupo);
+       
+       
        labelWelcome.setText("Bienvenido " + usuarioActual.nombreUsuario);
        labelUsuario.setText(usuarioActual.nombreUsuario);
        labelNombre.setText(usuarioActual.nombre);
@@ -150,6 +158,10 @@ public class dashboard extends javax.swing.JFrame {
         labelBaja1 = new javax.swing.JLabel();
         labelBuscar = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        labelCrearGrupo = new javax.swing.JLabel();
+        labelAgregarAmigoGrupo = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -229,12 +241,12 @@ public class dashboard extends javax.swing.JFrame {
                 .addComponent(labelApellido)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelRol)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
                 .addComponent(labelCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 110, 370));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 110, 430));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -251,7 +263,7 @@ public class dashboard extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 740, 30));
@@ -305,14 +317,40 @@ public class dashboard extends javax.swing.JFrame {
                 labelBuscarMouseClicked(evt);
             }
         });
-        PanelUsuario.add(labelBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 130, 116, 98));
+        PanelUsuario.add(labelBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 140, 116, 98));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Buscar");
-        PanelUsuario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 240, 116, -1));
+        jLabel3.setText("Crear Grupo");
+        PanelUsuario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 116, -1));
 
-        getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 740, 340));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Buscar");
+        PanelUsuario.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 240, 116, -1));
+
+        labelCrearGrupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelCrearGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelCrearGrupoMouseClicked(evt);
+            }
+        });
+        PanelUsuario.add(labelCrearGrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 116, 98));
+
+        labelAgregarAmigoGrupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelAgregarAmigoGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelAgregarAmigoGrupoMouseClicked(evt);
+            }
+        });
+        PanelUsuario.add(labelAgregarAmigoGrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 116, 98));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Agregar a Grupo");
+        PanelUsuario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 360, 116, -1));
+
+        getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 740, 400));
 
         pack();
         setLocationRelativeTo(null);
@@ -472,7 +510,7 @@ public class dashboard extends javax.swing.JFrame {
                     
                             Linea=LeerArchivo.readLine();
                             String[] split;
-                            int lineaPosicion = 1;
+                            int lineaPosicion = 0;
                             while(Linea != null)
                             {
                                 if(!"".equals(Linea))
@@ -483,18 +521,13 @@ public class dashboard extends javax.swing.JFrame {
                                         if (split[1].trim().equals(usuarioActual.nombreUsuario)) {
                                             int iRespuesta = JOptionPane.showConfirmDialog(null, "Deseas Aceptar la invitacion de " + split[0] , "¿Aceptar?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                             RandomAccessFile raf = new RandomAccessFile(rutaListaAmigos, "rw");
-                                               
-                                            if (iRespuesta == 0) 
-                                            {            
-                                                raf.seek(42* lineaPosicion);
-                                                raf.writeBytes("1");
-                                                
-                                                raf.seek(65 * lineaPosicion);
-                                                raf.writeBytes(formatter.format(date).toString());
-                                                raf.seek(86 * lineaPosicion);
-                                                raf.writeBytes("1");
-                                                raf.close(); 
-                                            }   
+                                             raf.seek((88 * lineaPosicion) + (42+lineaPosicion));
+                                            raf.writeBytes("1");
+
+                                            raf.seek((88 * lineaPosicion) + (65+lineaPosicion));
+                                            raf.writeBytes(formatter.format(date).toString());
+                                            raf.seek((88 * lineaPosicion) + (86+lineaPosicion));
+                                            raf.writeBytes("1"); 
                                             
                                             raf.close(); 
                                         }
@@ -565,12 +598,121 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_labelBaja1MouseClicked
 
     private void labelBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelBuscarMouseClicked
-        
+
         BuscarUsuario formBuscarUsuario = new BuscarUsuario(usuarioActual);
         formBuscarUsuario.setVisible(true);
         this.dispose();
+        
+        
     }//GEN-LAST:event_labelBuscarMouseClicked
 
+    public void escribirGrupo() throws IOException{
+        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYY HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+    
+        
+        Grupo nuevoGrupo = new Grupo();
+        boolean seguir = true;
+        String nombreGrupo = "";
+        String descripcion = "";
+        while(seguir){
+        
+            nombreGrupo = JOptionPane.showInputDialog("Escribe el nombre del grupo");
+            if (nombreGrupo.equals("")) {
+                seguir = true;
+            }
+            else {
+                seguir = false;
+            }
+        }
+        
+        boolean seguirDescripcion = true;
+        while(seguirDescripcion){
+        
+           descripcion = JOptionPane.showInputDialog("Escribe la descripcion del grupo");
+            if (descripcion.equals("")) {
+                seguirDescripcion = true;
+            }
+            else {
+                seguirDescripcion = false;
+            }
+        }
+        
+            
+            String rutaListaAmigos = "C:\\MEIA\\grupo.txt";
+            File Archivo = new File(rutaListaAmigos);
+            nuevoGrupo.creadorGrupo = usuarioActual.nombreUsuario;
+            nuevoGrupo.nombreGrupo = nombreGrupo;
+            nuevoGrupo.descriptorGrupo = descripcion;
+            nuevoGrupo.fechaTransaccion = formatter.format(date).toString();
+            nuevoGrupo.status = 1;
+            if(Archivo.exists()==true)
+            {
+                if (Archivo.length() > 0) {
+                    SolicitudAmistad solicitud = new SolicitudAmistad();
+                    FileReader LecturaArchivo;
+              
+                        LecturaArchivo = new FileReader(Archivo);
+                        BufferedReader LeerArchivo = new BufferedReader(LecturaArchivo);
+                        String Linea="";
+                    
+                            Linea=LeerArchivo.readLine();
+                            String[] split;
+                            int lineaPosicion = 0;
+                            while(Linea != null)
+                            {
+                                if(!"".equals(Linea))
+                                {
+                                    split=Linea.split("\\|");        
+
+                                    if (!(split[0].trim().equals(usuarioActual.nombreUsuario) && split[1].trim().equals(nombreGrupo))) {
+                                            
+                                            
+//                                            RandomAccessFile raf = new RandomAccessFile(rutaListaAmigos, "rw");
+//                                             raf.seek((88 * lineaPosicion) + (42+lineaPosicion));
+//                                            raf.writeBytes("1");
+//
+//                                            raf.seek((88 * lineaPosicion) + (65+lineaPosicion));
+//                                            raf.writeBytes(formatter.format(date).toString());
+//                                            raf.seek((88 * lineaPosicion) + (86+lineaPosicion));
+//                                            raf.writeBytes("1"); 
+//                                            
+//                                            raf.close(); 
+                                            FileWriter escribirEnArchivo = new FileWriter(Archivo,true);
+                                            BufferedWriter bw = new BufferedWriter(escribirEnArchivo);
+                                            bw.write(nuevoGrupo.getGrupoData() + System.getProperty("line.separator"));
+                                            bw.close();
+                                            escribirEnArchivo.close();
+                                            JOptionPane.showMessageDialog(null, "Grupo Creado");
+                                            break;
+                                    }
+                                    else {
+                                        JOptionPane.showMessageDialog(null, "Ya existe un grupo con ese nombre!");
+                                        break;
+                                    }
+                                }
+                                lineaPosicion++;
+                                Linea=LeerArchivo.readLine();
+                                
+                            }
+
+                            LecturaArchivo.close();
+                            LeerArchivo.close();
+                }
+            }else {
+                Archivo.createNewFile();
+                FileWriter escribirEnArchivo = new FileWriter(Archivo,true);
+                BufferedWriter bw = new BufferedWriter(escribirEnArchivo);
+                bw.write(nuevoGrupo.getGrupoData() + System.getProperty("line.separator"));
+                bw.close();
+                escribirEnArchivo.close(); 
+                JOptionPane.showMessageDialog(null, "Grupo Creado");
+            
+            }
+            
+        
+    
+    }
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         try{
             revisarNotificacion();
@@ -578,6 +720,22 @@ public class dashboard extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_formComponentShown
+
+    private void labelCrearGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelCrearGrupoMouseClicked
+         try {
+            escribirGrupo();
+        } catch (IOException ex) {
+            Logger.getLogger(dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_labelCrearGrupoMouseClicked
+
+    private void labelAgregarAmigoGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAgregarAmigoGrupoMouseClicked
+        AgregarAGrupo formAgregarAmigoGrupo = new AgregarAGrupo(usuarioActual);
+        formAgregarAmigoGrupo.setVisible(true);
+        
+        this.dispose();
+        
+    }//GEN-LAST:event_labelAgregarAmigoGrupoMouseClicked
     
     private void insertarBackUp(BackUp Bku, File arBitacora, File arDescriptor ) throws IOException{
         //No es primera vez
@@ -768,14 +926,18 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel labelAgregarAmigoGrupo;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelBaja;
     private javax.swing.JLabel labelBaja1;
     private javax.swing.JLabel labelBuscar;
     private javax.swing.JLabel labelCerrar1;
     private javax.swing.JLabel labelCerrarSesion;
+    private javax.swing.JLabel labelCrearGrupo;
     private javax.swing.JLabel labelEditar;
     private javax.swing.JLabel labelImagenPerfil;
     private javax.swing.JLabel labelNombre;
