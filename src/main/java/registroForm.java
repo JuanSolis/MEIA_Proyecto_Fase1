@@ -438,6 +438,11 @@ public class registroForm extends javax.swing.JFrame {
         labelEstatus.setForeground(new java.awt.Color(255, 0, 51));
 
         jButton1.setText("Buscar Foto");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -731,6 +736,10 @@ public class registroForm extends javax.swing.JFrame {
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
 
         public void InsertarUsuario(Usuario user) throws IOException{
         String rutaArchivoBitacora = "C:\\MEIA\\bitacora_usuario.txt";

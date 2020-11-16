@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -47,7 +48,7 @@ public class dashboard extends javax.swing.JFrame {
     /**
      * Creates new form dashboard
      */
-    
+    DefaultListModel<String> modeloListaAmigos = new DefaultListModel<String>();
     Usuario usuarioActual = new Usuario();
     File ubicacion;
     File descriptor;
@@ -105,6 +106,31 @@ public class dashboard extends javax.swing.JFrame {
        
        labelAgregarAmigoGrupo.setIcon(iconoAgregarAGrupo);
        
+       ImageIcon enviarMensaje = new ImageIcon("src/Imagenes/mensaje.png");
+       Icon iconoEnviarMensaje = new ImageIcon(enviarMensaje.getImage().getScaledInstance(labelEnviarMensaje.getWidth(), labelEnviarMensaje.getHeight(), Image.SCALE_FAST));
+       
+       labelEnviarMensaje.setIcon(iconoEnviarMensaje);
+       
+       ImageIcon verMensaje = new ImageIcon("src/Imagenes/verMensaje.png");
+       Icon iconoVerMensaje = new ImageIcon(verMensaje.getImage().getScaledInstance(labelVerMensajes.getWidth(), labelVerMensajes.getHeight(), Image.SCALE_FAST));
+       
+       labelVerMensajes.setIcon(iconoVerMensaje);
+       
+       ImageIcon verMuro = new ImageIcon("src/Imagenes/hogar.png");
+       Icon iconoVerMuro = new ImageIcon(verMuro.getImage().getScaledInstance(labelVerMuro.getWidth(), labelVerMuro.getHeight(), Image.SCALE_FAST));
+       
+       labelVerMuro.setIcon(iconoVerMuro);
+       
+       
+       ImageIcon subirImagenes = new ImageIcon("src/Imagenes/camara-fotografica.png");
+       Icon iconoSubirImagenes = new ImageIcon(subirImagenes.getImage().getScaledInstance(labelSubirImagen.getWidth(), labelSubirImagen.getHeight(), Image.SCALE_FAST));
+       
+       labelSubirImagen.setIcon(iconoSubirImagenes);
+       
+       ImageIcon verImagenes = new ImageIcon("src/Imagenes/galeria.png");
+       Icon iconoVerImagenes = new ImageIcon(verImagenes.getImage().getScaledInstance(labelVerImagenes.getWidth(), labelVerImagenes.getHeight(), Image.SCALE_FAST));
+       
+       labelVerImagenes.setIcon(iconoVerImagenes);
        
        labelWelcome.setText("Bienvenido " + usuarioActual.nombreUsuario);
        labelUsuario.setText(usuarioActual.nombreUsuario);
@@ -167,6 +193,16 @@ public class dashboard extends javax.swing.JFrame {
         labelCrearGrupo = new javax.swing.JLabel();
         labelAgregarAmigoGrupo = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        labelEnviarMensaje = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        labelVerMensajes = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        labelVerMuro = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        labelSubirImagen = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        labelVerImagenes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -327,7 +363,7 @@ public class dashboard extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Crear Grupo");
-        PanelUsuario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, 116, -1));
+        PanelUsuario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 370, 116, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -340,7 +376,7 @@ public class dashboard extends javax.swing.JFrame {
                 labelCrearGrupoMouseClicked(evt);
             }
         });
-        PanelUsuario.add(labelCrearGrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 116, 98));
+        PanelUsuario.add(labelCrearGrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 116, 98));
 
         labelAgregarAmigoGrupo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         labelAgregarAmigoGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -348,12 +384,89 @@ public class dashboard extends javax.swing.JFrame {
                 labelAgregarAmigoGrupoMouseClicked(evt);
             }
         });
-        PanelUsuario.add(labelAgregarAmigoGrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 260, 116, 98));
+        PanelUsuario.add(labelAgregarAmigoGrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 270, 116, 98));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Agregar a Grupo");
-        PanelUsuario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 360, 116, -1));
+        PanelUsuario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, 116, -1));
+
+        labelEnviarMensaje.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelEnviarMensaje.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelEnviarMensajeMouseClicked(evt);
+            }
+        });
+        PanelUsuario.add(labelEnviarMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 116, 98));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Enviar mensaje");
+        PanelUsuario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 116, -1));
+
+        labelVerMensajes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelVerMensajes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelVerMensajesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelVerMensajesMouseEntered(evt);
+            }
+        });
+        PanelUsuario.add(labelVerMensajes, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, 116, 98));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Mensajes");
+        PanelUsuario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, 116, -1));
+
+        labelVerMuro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelVerMuro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelVerMuroMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelVerMuroMouseEntered(evt);
+            }
+        });
+        PanelUsuario.add(labelVerMuro, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 116, 98));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Muro");
+        PanelUsuario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 370, 116, -1));
+
+        labelSubirImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelSubirImagen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelSubirImagenMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelSubirImagenMouseEntered(evt);
+            }
+        });
+        PanelUsuario.add(labelSubirImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 80, 60));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Subir Imagen");
+        PanelUsuario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 120, 90, 20));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Subir Imagen");
+        PanelUsuario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, 90, 20));
+
+        labelVerImagenes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelVerImagenes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelVerImagenesMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelVerImagenesMouseEntered(evt);
+            }
+        });
+        PanelUsuario.add(labelVerImagenes, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, 80, 60));
 
         getContentPane().add(PanelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 740, 400));
 
@@ -741,6 +854,125 @@ public class dashboard extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_labelAgregarAmigoGrupoMouseClicked
+
+    private void labelEnviarMensajeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelEnviarMensajeMouseClicked
+        
+        try{
+           
+            formMensajes formularioMensaje = new formMensajes(usuarioActual);
+            formularioMensaje.setVisible(true);
+            this.dispose();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        
+    }//GEN-LAST:event_labelEnviarMensajeMouseClicked
+    
+    public void mensaresRecividos(String tipoMensaje)throws FileNotFoundException, IOException{
+    String rutaMensajes = "C:\\MEIA\\mensajes.txt";
+        File Archivo = new File(rutaMensajes);
+        
+            if(Archivo.exists()==true)
+            {
+                if (Archivo.length() > 0) {
+                    
+                    FileReader LecturaArchivo;
+              
+                        LecturaArchivo = new FileReader(Archivo);
+                        BufferedReader LeerArchivo = new BufferedReader(LecturaArchivo);
+                        String Linea="";
+                      
+                            Linea=LeerArchivo.readLine();
+                            String[] split;
+                          
+                            while(Linea != null)
+                            {
+                                if(!"".equals(Linea))
+                                {
+                                    split=Linea.split("\\|");        
+
+                                    if (split[5].trim().equals("1")) {
+                                        if (split[1].trim().equals(usuarioActual.nombreUsuario)) {
+                                            
+                                            if (tipoMensaje.equals("Privados")) {
+                                               if (split[4].trim().equals("1")) {
+                                                modeloListaAmigos.addElement(split[0].trim()+ " dice: "+ split[3].trim());
+                                                } 
+                                            }
+                                            
+                                            if (tipoMensaje.equals("Publicos")) {
+                                               if (split[4].trim().equals("0")) {
+                                                modeloListaAmigos.addElement(split[0].trim()+ " dice: "+ split[3].trim());
+                                                } 
+                                            }
+
+                                        }
+                                    }
+                                }
+                               
+                                Linea=LeerArchivo.readLine();
+                                
+                            }
+                            
+                            LecturaArchivo.close();
+                            LeerArchivo.close();
+                }
+            }
+    }
+    private void labelVerMensajesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelVerMensajesMouseClicked
+        try{
+            mensaresRecividos("Privados");
+            formularioMensajes formMensajes = new formularioMensajes(modeloListaAmigos);
+            formMensajes.setVisible(true);
+
+            this.dispose(); 
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_labelVerMensajesMouseClicked
+
+    private void labelVerMensajesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelVerMensajesMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelVerMensajesMouseEntered
+
+    private void labelVerMuroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelVerMuroMouseClicked
+        try{
+            mensaresRecividos("Publicos");
+            formularioMuro formMuro = new formularioMuro(modeloListaAmigos);
+            formMuro.setVisible(true);
+
+            this.dispose(); 
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_labelVerMuroMouseClicked
+
+    private void labelVerMuroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelVerMuroMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelVerMuroMouseEntered
+
+    private void labelSubirImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelSubirImagenMouseClicked
+        
+        subirImagenes formUpload = new subirImagenes(usuarioActual);
+        formUpload.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_labelSubirImagenMouseClicked
+
+    private void labelSubirImagenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelSubirImagenMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelSubirImagenMouseEntered
+
+    private void labelVerImagenesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelVerImagenesMouseClicked
+        verImagenes frmVerImagenes = new verImagenes(usuarioActual);
+        frmVerImagenes.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_labelVerImagenesMouseClicked
+
+    private void labelVerImagenesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelVerImagenesMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelVerImagenesMouseEntered
     
     private void insertarBackUp(BackUp Bku, File arBitacora, File arDescriptor ) throws IOException{
         //No es primera vez
@@ -929,10 +1161,15 @@ public class dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelUsuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelAgregarAmigoGrupo;
@@ -944,11 +1181,16 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel labelCerrarSesion;
     private javax.swing.JLabel labelCrearGrupo;
     private javax.swing.JLabel labelEditar;
+    private javax.swing.JLabel labelEnviarMensaje;
     private javax.swing.JLabel labelImagenPerfil;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelRol;
+    private javax.swing.JLabel labelSubirImagen;
     private javax.swing.JLabel labelTitulo;
     private javax.swing.JLabel labelUsuario;
+    private javax.swing.JLabel labelVerImagenes;
+    private javax.swing.JLabel labelVerMensajes;
+    private javax.swing.JLabel labelVerMuro;
     private javax.swing.JLabel labelWelcome;
     // End of variables declaration//GEN-END:variables
 }
